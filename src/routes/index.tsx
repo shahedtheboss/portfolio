@@ -720,6 +720,9 @@ function Journey() {
 }
 
 function Contact() {
+  const display = (url: string) =>
+    url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+
   const channels = [
     {
       label: "Email",
@@ -730,21 +733,21 @@ function Contact() {
     },
     {
       label: "GitHub",
-      value: identity.github.replace(/^https?:\/\//, ""),
+      value: display(identity.github),
       href: identity.github,
       Icon: Github,
       external: true,
     },
     {
       label: "LinkedIn",
-      value: identity.linkedin.replace(/^https?:\/\//, ""),
+      value: display(identity.linkedin),
       href: identity.linkedin,
       Icon: Linkedin,
       external: true,
     },
     {
       label: "YouTube",
-      value: identity.youtube.replace(/^https?:\/\//, ""),
+      value: display(identity.youtube),
       href: identity.youtube,
       Icon: Youtube,
       external: true,

@@ -18,4 +18,10 @@ describe("Learning Journey timeline", () => {
       "Python & ML",
     ]);
   });
+
+  it("marks only the future step as ahead", () => {
+    expect(journey.filter((item) => item.ahead).map((item) => item.title)).toEqual([
+      "Advanced RL & Control",
+    ]);
+  });
 });

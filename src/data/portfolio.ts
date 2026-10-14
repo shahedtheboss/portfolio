@@ -405,15 +405,15 @@ export const experience = [
 ];
 
 export const journey = [
-  { step: "01", title: "Start of Programming", body: "Started learning C programming in junior high in 2017." },
-  { step: "02", title: "Web Development", body: "Began teaching myself web development in 2020, and have been building and learning with it ever since." },
-  { step: "03", title: "Python & ML", body: "Picked up Python basics and machine-learning fundamentals in 2024." },
-  { step: "04", title: "EEE Foundations", body: "Electrical & electronic engineering fundamentals at CUET." },
-  { step: "05", title: "PyTorch & Neural Networks", body: "Implementing and training neural networks." },
-  { step: "06", title: "Reinforcement Learning", body: "Q-learning and Deep Q-Networks." },
-  { step: "07", title: "ROS 2 & Navigation", body: "Robot-navigation systems and simulation." },
-  { step: "08", title: "Paper Reproduction", body: "Reproducing research and running experiments." },
-  { step: "09", title: "Advanced RL & Control", body: "Future exploration of intelligent control." },
+  { step: "01", title: "Start of Programming", body: "Started learning C programming in junior high in 2017.", ahead: false },
+  { step: "02", title: "Web Development", body: "Began teaching myself web development in 2020, and have been building and learning with it ever since.", ahead: false },
+  { step: "03", title: "Python & ML", body: "Picked up Python basics and machine-learning fundamentals in 2024.", ahead: false },
+  { step: "04", title: "EEE Foundations", body: "Electrical & electronic engineering fundamentals at CUET.", ahead: false },
+  { step: "05", title: "PyTorch & Neural Networks", body: "Implementing and training neural networks.", ahead: false },
+  { step: "06", title: "Reinforcement Learning", body: "Q-learning and Deep Q-Networks.", ahead: false },
+  { step: "07", title: "ROS 2 & Navigation", body: "Robot-navigation systems and simulation.", ahead: false },
+  { step: "08", title: "Paper Reproduction", body: "Reproducing research and running experiments.", ahead: false },
+  { step: "09", title: "Advanced RL & Control", body: "Future exploration of intelligent control.", ahead: true },
 ];
 
 export const education = {

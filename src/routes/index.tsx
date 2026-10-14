@@ -668,12 +668,12 @@ function Journey() {
           />
         </Reveal>
         <ol className="relative space-y-6 border-l border-border pl-6">
-          {journey.map((item, i) => (
+          {journey.map((item) => (
             <Reveal key={item.step}>
               <li className="relative">
                 <span
                   className={`absolute -left-[31px] top-1 h-2.5 w-2.5 rounded-full border ${
-                    i < 6
+                    !item.ahead
                       ? "border-primary bg-primary"
                       : "border-muted-foreground bg-background"
                   }`}
@@ -685,7 +685,7 @@ function Journey() {
                     <h3 className="font-display text-base font-semibold text-foreground">
                       {item.title}
                     </h3>
-                    {i >= 6 && (
+                    {item.ahead && (
                       <span className="font-mono text-[10px] text-muted-foreground">AHEAD</span>
                     )}
                   </div>

@@ -721,7 +721,11 @@ function Journey() {
 
 function Contact() {
   const display = (url: string) =>
-    url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+    url
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/$/, "")
+      .replace(/^linkedin\.com\//, "");
 
   const channels = [
     {

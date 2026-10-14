@@ -388,7 +388,7 @@ export const experience = [
     title: "Freelancing",
     period: "4+ Years",
     kind: "Freelance Experience",
-    body: "Worked as a full-stack web developer on Fiverr and Upwork for over four years, delivering client websites and web applications end to end.",
+    body: "Worked as a full-stack web developer on Freelancer, Upwork and Fiverr for over four years, delivering client websites and web applications end to end.",
   },
   {
     title: "Industrial Automation Training",

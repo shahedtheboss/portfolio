@@ -22,6 +22,7 @@ describe("Learning Journey timeline", () => {
   it("marks only the future steps as ahead", () => {
     expect(journey.filter((item) => item.ahead).map((item) => item.title)).toEqual([
       "Building & Implementing RL Projects",
+      "Paper Reproduction",
       "Advanced RL & Control",
     ]);
   });

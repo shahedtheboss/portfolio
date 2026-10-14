@@ -303,28 +303,31 @@ function About() {
     <section id="about" className="border-t border-border bg-surface">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <Reveal>
-          <SectionHeading eyebrow="ABOUT ME" title="A developer's foundation, an engineer's direction" />
+          <SectionHeading eyebrow="ABOUT ME" title="How I Think & What Drives Me" />
         </Reveal>
         <div className="grid gap-10 lg:grid-cols-5">
           <Reveal className="lg:col-span-3">
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
               <p>
-                I'm an Electrical and Electronic Engineering student at CUET with approximately six
-                years of experience in web development. My journey through web development has given
-                me a sustained interest in programming, building digital experiences, and solving
-                practical software problems.
+                I'm naturally curious, enjoy solving challenging problems, and believe in learning
+                through experimentation. I like understanding the logic behind things, testing
+                ideas, and continuously improving through practice.
               </p>
               <p>
-                I'm now expanding that foundation into machine learning, PyTorch, reinforcement
-                learning, robotics, and industrial automation. What interests me most is the
-                opportunity to combine software development with electrical engineering to build
-                systems that can perceive their surroundings, learn from experience, make decisions,
-                and interact with the physical world.
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">My mindset —</span>{" "}
+                Analytical, hands-on, and always learning. I value creative problem-solving,
+                strategic thinking, and sharing knowledge with others.
               </p>
               <p>
-                My long-term goal is to develop deeper expertise in intelligent systems and
-                contribute to meaningful engineering projects and research — bringing together my
-                software-development background and my growing understanding of AI and robotics.
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">Beyond technology —</span>{" "}
+                I'm passionate about competitive gaming, where strategy and quick decisions matter,
+                and adventure, which gives me opportunities to explore, embrace challenges, and step
+                outside my comfort zone.
+              </p>
+              <p>
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">What drives me —</span>{" "}
+                The satisfaction of overcoming difficult challenges, discovering something new, and
+                turning ideas into something meaningful.
               </p>
             </div>
           </Reveal>

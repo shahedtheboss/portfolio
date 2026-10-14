@@ -153,6 +153,9 @@ export const skillGroups: SkillGroup[] = [
       "Gazebo simulation workflows",
       "Sensor-to-action pipelines",
       "Obstacle avoidance",
+      "Raspberry Pi",
+      "ESP32",
+      "Arduino",
     ],
   },
   {

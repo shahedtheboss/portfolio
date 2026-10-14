@@ -379,10 +379,16 @@ export const experience = [
     body: "A sustained technical background building websites and web applications — frontend and backend implementation, deployment, debugging, and maintenance across personal and collaborative projects.",
   },
   {
-    title: "Teaching & Educational Content",
-    period: "Ongoing",
+    title: "MERN Stack Mentorship",
+    period: "2021 – 2023",
     kind: "Teaching Experience",
-    body: "Teaching HSC students and university-admission candidates, creating educational content for large audiences on YouTube, and teaching web-development students through AmarSkill — explaining complex ideas clearly.",
+    body: "Tutored over thousands of students live in mastering MERN-stack web development at an educational platform.",
+  },
+  {
+    title: "Freelancing",
+    period: "4+ Years",
+    kind: "Freelance Experience",
+    body: "Worked as a full-stack web developer on Fiverr and Upwork for over four years, delivering client websites and web applications end to end.",
   },
   {
     title: "Industrial Automation Training",

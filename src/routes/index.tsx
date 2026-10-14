@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ArrowRight,
   ArrowUp,
+  ArrowUpRight,
   Brain,
   CircuitBoard,
   Cpu,
@@ -719,18 +720,36 @@ function Journey() {
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const subject = encodeURIComponent(String(data.get("subject") || "Portfolio contact"));
-    const body = encodeURIComponent(
-      `Name: ${data.get("name")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`,
-    );
-    window.location.href = `mailto:${identity.email}?subject=${subject}&body=${body}`;
-    setSent(true);
-  };
+  const channels = [
+    {
+      label: "Email",
+      value: identity.email,
+      href: `mailto:${identity.email}`,
+      Icon: Mail,
+      external: false,
+    },
+    {
+      label: "GitHub",
+      value: identity.github.replace(/^https?:\/\//, ""),
+      href: identity.github,
+      Icon: Github,
+      external: true,
+    },
+    {
+      label: "LinkedIn",
+      value: identity.linkedin.replace(/^https?:\/\//, ""),
+      href: identity.linkedin,
+      Icon: Linkedin,
+      external: true,
+    },
+    {
+      label: "YouTube",
+      value: identity.youtube.replace(/^https?:\/\//, ""),
+      href: identity.youtube,
+      Icon: Youtube,
+      external: true,
+    },
+  ];
 
   return (
     <section id="contact" className="relative border-t border-border bg-surface">
@@ -742,111 +761,46 @@ function Contact() {
             title="Interested in Web Development, Robotics, AI, or Engineering Research?"
           />
         </Reveal>
-        <div className="grid gap-10 lg:grid-cols-2">
-          <Reveal>
-            <p className="max-w-lg text-base leading-relaxed text-muted-foreground">
-              I bring a background in web development and an expanding interest in intelligent
-              engineering systems. I'm interested in connecting with developers, researchers,
-              engineers, and collaborators working on web technologies, reinforcement learning,
-              robotics, industrial AI, and related problems. Feel free to reach out to discuss a
-              project or exchange ideas.
-            </p>
-            <div className="mt-8 space-y-3">
+        <Reveal>
+          <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-muted-foreground">
+            I bring a background in web development and an expanding interest in intelligent
+            engineering systems. I'm interested in connecting with developers, researchers,
+            engineers, and collaborators working on web technologies, reinforcement learning,
+            robotics, industrial AI, and related problems. Feel free to reach out to discuss a
+            project or exchange ideas.
+          </p>
+        </Reveal>
+        <Reveal>
+          <h3 className="mt-14 text-center font-mono text-xs font-medium uppercase tracking-[0.35em] text-primary">
+            Contact me
+          </h3>
+          <div className="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+            {channels.map(({ label, value, href, Icon, external }) => (
               <a
-                href={`mailto:${identity.email}`}
-                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
+                key={label}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+                className="card-lift group flex items-center gap-4 rounded-xl border border-border bg-card p-4 text-left"
               >
-                <Mail size={16} className="text-primary" /> {identity.email}
-              </a>
-              <a
-                href={identity.github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
-              >
-                <Github size={16} className="text-primary" /> GitHub
-              </a>
-              <a
-                href={identity.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
-              >
-                <Linkedin size={16} className="text-primary" /> LinkedIn
-              </a>
-              <a
-                href={identity.youtube}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
-              >
-                <Youtube size={16} className="text-primary" /> YouTube
-              </a>
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <form
-              onSubmit={handleSubmit}
-              className="rounded-xl border border-border bg-card p-6"
-              aria-label="Contact form"
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block text-sm">
-                  <span className="mb-1.5 block font-mono text-xs text-muted-foreground">Name</span>
-                  <input
-                    required
-                    name="name"
-                    type="text"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                    placeholder="Your name"
-                  />
-                </label>
-                <label className="block text-sm">
-                  <span className="mb-1.5 block font-mono text-xs text-muted-foreground">Email</span>
-                  <input
-                    required
-                    name="email"
-                    type="email"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                    placeholder="you@example.com"
-                  />
-                </label>
-              </div>
-              <label className="mt-4 block text-sm">
-                <span className="mb-1.5 block font-mono text-xs text-muted-foreground">Subject</span>
-                <input
-                  required
-                  name="subject"
-                  type="text"
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                  placeholder="What's this about?"
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-primary/30 bg-background text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                  <Icon size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-display text-sm font-semibold text-foreground">
+                    {label}
+                  </span>
+                  <span className="block truncate font-mono text-[11px] text-muted-foreground transition-colors duration-300 group-hover:text-primary">
+                    {value}
+                  </span>
+                </span>
+                <ArrowUpRight
+                  size={16}
+                  className="ml-auto shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
                 />
-              </label>
-              <label className="mt-4 block text-sm">
-                <span className="mb-1.5 block font-mono text-xs text-muted-foreground">Message</span>
-                <textarea
-                  required
-                  name="message"
-                  rows={5}
-                  className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                  placeholder="Your message…"
-                />
-              </label>
-              <button
-                type="submit"
-                className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                Send Message <ArrowRight size={16} />
-              </button>
-              {sent && (
-                <p className="mt-3 font-mono text-xs text-primary" role="status">
-                  Opening your email client with the message pre-filled.
-                </p>
-              )}
-            </form>
-          </Reveal>
-        </div>
+              </a>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -15,9 +15,10 @@ import {
   Network,
   ScanLine,
   X,
+  Youtube,
 } from "lucide-react";
 
-import heroVisual from "@/assets/hero-visual.jpg";
+import portraitAsset from "@/assets/portrait.jpg.asset.json";
 import projectRobot from "@/assets/project-robot.jpg";
 import projectVision from "@/assets/project-vision.jpg";
 import projectAutomation from "@/assets/project-automation.jpg";
@@ -41,13 +42,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Shahadat Hussain Shahed | Web Development, AI & Robotics" },
+      { title: "Md. Shahdath Hussain | Web Development, AI & Robotics" },
       {
         name: "description",
         content:
-          "Portfolio of Shahadat Hussain Shahed — EEE undergraduate at CUET and web developer with 6 years of experience, expanding into AI, reinforcement learning, robotics, and intelligent control systems.",
+          "Portfolio of Md. Shahdath Hussain — EEE undergraduate at CUET and web developer with 6 years of experience, expanding into AI, reinforcement learning, robotics, and intelligent control systems.",
       },
-      { property: "og:title", content: "Shahadat Hussain Shahed | Web Development, AI & Robotics" },
+      { property: "og:title", content: "Md. Shahdath Hussain | Web Development, AI & Robotics" },
       {
         property: "og:description",
         content:
@@ -253,6 +254,15 @@ function Hero() {
             >
               <Linkedin size={20} />
             </a>
+            <a
+              href={identity.youtube}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="YouTube channel"
+              className="text-muted-foreground transition-colors hover:text-primary"
+            >
+              <Youtube size={20} />
+            </a>
           </div>
 
           <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 font-mono text-xs text-muted-foreground">
@@ -264,10 +274,10 @@ function Hero() {
         <div className="relative">
           <div className="relative overflow-hidden rounded-2xl border border-primary/40 glow-primary">
             <img
-              src={heroVisual}
-              alt="Abstract visualization of a human figure formed from neural-network nodes and circuit traces, representing the fusion of software and intelligent systems"
-              width={1024}
-              height={1280}
+              src={portraitAsset.url}
+              alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
+              width={1400}
+              height={1400}
               className="h-auto w-full object-cover"
             />
           </div>
@@ -672,6 +682,14 @@ function Contact() {
               >
                 <Linkedin size={16} className="text-primary" /> LinkedIn
               </a>
+              <a
+                href={identity.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
+              >
+                <Youtube size={16} className="text-primary" /> YouTube
+              </a>
             </div>
           </Reveal>
 
@@ -777,6 +795,10 @@ function Footer() {
           <a href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile"
             className="text-muted-foreground transition-colors hover:text-primary">
             <Linkedin size={18} />
+          </a>
+          <a href={identity.youtube} target="_blank" rel="noreferrer" aria-label="YouTube channel"
+            className="text-muted-foreground transition-colors hover:text-primary">
+            <Youtube size={18} />
           </a>
         </div>
         <p className="font-mono text-[11px] text-muted-foreground">

@@ -78,14 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Shahadat Hussain Shahed | Web Development, AI & Robotics" },
+      { title: "Md. Shahdath Hussain | Web Development, AI & Robotics" },
       {
         name: "description",
         content:
-          "Portfolio of Shahadat Hussain Shahed — EEE undergraduate at CUET and web developer expanding into AI, robotics, and reinforcement learning.",
+          "Portfolio of Md. Shahdath Hussain — EEE undergraduate at CUET and web developer expanding into AI, robotics, and reinforcement learning.",
       },
-      { name: "author", content: "Shahadat Hussain Shahed" },
-      { property: "og:title", content: "Shahadat Hussain Shahed | Web Development, AI & Robotics" },
+      { name: "author", content: "Md. Shahdath Hussain" },
+      { property: "og:title", content: "Md. Shahdath Hussain | Web Development, AI & Robotics" },
       {
         property: "og:description",
         content:

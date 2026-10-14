@@ -3,17 +3,21 @@ import { describe, expect, it } from "vitest";
 import { identity, projects } from "@/data/portfolio";
 
 // The projects grid shows only the first five cards until "see more" is clicked, so the
-// order of this array is the rule for what a visitor sees first.
+// order of this array is the rule for what a visitor sees first and last.
 describe("Projects content", () => {
   it("has more projects than the five shown by default", () => {
     expect(projects.length).toBeGreaterThan(5);
   });
 
-  it("opens with five real repositories, each linking to its source", () => {
-    for (const project of projects.slice(0, 5)) {
-      expect(project.link, `${project.title} needs a repository link`).toBeTruthy();
-      expect(project.link?.startsWith(`${identity.github}/`)).toBe(true);
-    }
+  it("opens with bottle inspection, then DQN robot navigation", () => {
+    expect(projects.slice(0, 2).map((p) => p.title)).toEqual([
+      "AI-Assisted Industrial Bottle Inspection & Rejection",
+      "DQN-Based Robot Navigation & Obstacle Avoidance",
+    ]);
+  });
+
+  it("ends with the covid tracker and the whatsapp clone", () => {
+    expect(projects.slice(-2).map((p) => p.title)).toEqual(["Covid Tracker", "WhatsApp Clone"]);
   });
 
   it("never links outside the owner's own GitHub account", () => {

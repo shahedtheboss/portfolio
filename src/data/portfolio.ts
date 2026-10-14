@@ -221,6 +221,38 @@ export const projectFilters = [
 
 export const projects: Project[] = [
   {
+    title: "AI-Assisted Industrial Bottle Inspection & Rejection",
+    category: "robotics",
+    categoryLabel: "Industrial Automation · Machine Vision · PLC",
+    status: "Planned",
+    summary:
+      "Integrating visual inspection with an automated rejection mechanism — where electrical engineering, industrial automation, and AI meet.",
+    details: [
+      "Defect detection from images",
+      "Communication between an AI-processing unit and a PLC",
+      "Sensor-triggered inspection & conveyor control",
+      "Automated rejection of defective products",
+    ],
+    tech: ["Raspberry Pi", "PLC", "Machine Vision", "Sensors & Actuators"],
+    image: "automation",
+  },
+  {
+    title: "DQN-Based Robot Navigation & Obstacle Avoidance",
+    category: "robotics",
+    categoryLabel: "Reinforcement Learning · Robotics · ROS 2",
+    status: "In Progress",
+    summary:
+      "A robot navigation system where a deep reinforcement learning agent selects movement actions from environmental observations.",
+    details: [
+      "DQN-based action selection from sensor inputs",
+      "Reward-function design for navigation & obstacle avoidance",
+      "Experience replay and target networks",
+      "ROS 2 communication and simulation integration",
+    ],
+    tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
+    image: "robot",
+  },
+  {
     title: "Real-Time RFID Access Logging System",
     category: "embedded",
     categoryLabel: "Embedded Systems · ESP32 · Next.js",
@@ -236,23 +268,6 @@ export const projects: Project[] = [
     tech: ["ESP32", "C++", "Next.js", "JavaScript"],
     image: "rfid",
     link: "https://github.com/shahedtheboss/Real-Time-RFID-Access-Logging-System-with-ESP32-Next.js-Full-Stack-Dashboard",
-  },
-  {
-    title: "WhatsApp Clone",
-    category: "web",
-    categoryLabel: "Web Development · React · Messaging",
-    status: "Completed",
-    summary:
-      "A global messaging application built with React — Google authentication and a chat interface modelled on WhatsApp.",
-    details: [
-      "Google authentication",
-      "Chat interface modelled on WhatsApp",
-      "Conversation and message flow",
-      "Responsive layout",
-    ],
-    tech: ["React", "JavaScript", "CSS"],
-    image: "chat",
-    link: "https://github.com/shahedtheboss/whatsapp-clone",
   },
   {
     title: "Next Restaurant App",
@@ -289,39 +304,6 @@ export const projects: Project[] = [
     link: "https://github.com/shahedtheboss/bistro92",
   },
   {
-    title: "Covid Tracker",
-    category: "web",
-    categoryLabel: "Web Development · React · Live Data",
-    status: "Completed",
-    summary:
-      "A worldwide and country-wise COVID-19 tracker app built with React, presenting live statistics that can be explored by country.",
-    details: [
-      "Live case-data fetching",
-      "Worldwide and country-wise views",
-      "React state and filtering",
-      "Responsive data display",
-    ],
-    tech: ["React", "JavaScript", "CSS"],
-    image: "web",
-    link: "https://github.com/shahedtheboss/covidtracker",
-  },
-  {
-    title: "DQN-Based Robot Navigation & Obstacle Avoidance",
-    category: "robotics",
-    categoryLabel: "Reinforcement Learning · Robotics · ROS 2",
-    status: "In Progress",
-    summary:
-      "A robot navigation system where a deep reinforcement learning agent selects movement actions from environmental observations.",
-    details: [
-      "DQN-based action selection from sensor inputs",
-      "Reward-function design for navigation & obstacle avoidance",
-      "Experience replay and target networks",
-      "ROS 2 communication and simulation integration",
-    ],
-    tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
-    image: "robot",
-  },
-  {
     title: "Breast Cancer Classification Using PyTorch",
     category: "ai",
     categoryLabel: "Machine Learning · PyTorch · Model Evaluation",
@@ -354,20 +336,38 @@ export const projects: Project[] = [
     image: "vision",
   },
   {
-    title: "AI-Assisted Industrial Bottle Inspection & Rejection",
-    category: "robotics",
-    categoryLabel: "Industrial Automation · Machine Vision · PLC",
-    status: "Planned",
+    title: "Covid Tracker",
+    category: "web",
+    categoryLabel: "Web Development · React · Live Data",
+    status: "Completed",
     summary:
-      "Integrating visual inspection with an automated rejection mechanism — where electrical engineering, industrial automation, and AI meet.",
+      "A worldwide and country-wise COVID-19 tracker app built with React, presenting live statistics that can be explored by country.",
     details: [
-      "Defect detection from images",
-      "Communication between an AI-processing unit and a PLC",
-      "Sensor-triggered inspection & conveyor control",
-      "Automated rejection of defective products",
+      "Live case-data fetching",
+      "Worldwide and country-wise views",
+      "React state and filtering",
+      "Responsive data display",
     ],
-    tech: ["Raspberry Pi", "PLC", "Machine Vision", "Sensors & Actuators"],
-    image: "automation",
+    tech: ["React", "JavaScript", "CSS"],
+    image: "web",
+    link: "https://github.com/shahedtheboss/covidtracker",
+  },
+  {
+    title: "WhatsApp Clone",
+    category: "web",
+    categoryLabel: "Web Development · React · Messaging",
+    status: "Completed",
+    summary:
+      "A global messaging application built with React — Google authentication and a chat interface modelled on WhatsApp.",
+    details: [
+      "Google authentication",
+      "Chat interface modelled on WhatsApp",
+      "Conversation and message flow",
+      "Responsive layout",
+    ],
+    tech: ["React", "JavaScript", "CSS"],
+    image: "chat",
+    link: "https://github.com/shahedtheboss/whatsapp-clone",
   },
 ];
 

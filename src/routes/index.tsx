@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ArrowRight,
+  ArrowUp,
   Brain,
   CircuitBoard,
   Cpu,
@@ -590,6 +591,23 @@ function Projects() {
             </Reveal>
           )}
         </div>
+
+        {expanded && (
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => {
+                setExpanded(false);
+                document
+                  .getElementById("projects")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              See less
+              <ArrowUp size={16} />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

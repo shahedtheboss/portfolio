@@ -413,7 +413,7 @@ export const journey = [
   { step: "06", title: "Reinforcement Learning", body: "Q-learning and Deep Q-Networks.", ahead: false },
   { step: "07", title: "ROS 2 & Navigation", body: "Robot-navigation systems and simulation.", ahead: false },
   { step: "08", title: "Building & Implementing RL Projects", body: "Building and implementing further reinforcement-learning projects.", ahead: true },
-  { step: "09", title: "Paper Reproduction", body: "Reproducing research and running experiments.", ahead: false },
+  { step: "09", title: "Paper Reproduction", body: "Reproducing research and running experiments.", ahead: true },
   { step: "10", title: "Advanced RL & Control", body: "Future exploration of intelligent control.", ahead: true },
 ];
 

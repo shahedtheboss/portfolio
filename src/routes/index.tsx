@@ -287,7 +287,7 @@ function Hero() {
               src={portraitAsset.url}
               alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
               width={450}
-              height={680}
+              height={610}
               className="h-auto max-h-[640px] w-full object-cover object-top"
             />
           </div>

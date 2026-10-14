@@ -24,7 +24,7 @@ export const identity = {
 export const identityCard = [
   { label: "Degree", value: "Electrical & Electronic Engineering" },
   { label: "Institution", value: "CUET, Bangladesh" },
-  { label: "Experience", value: "6 Years of Web Development" },
+  { label: "Experience", value: "Web Dev, ML, RL, Embedded Systems, Electronics" },
   { label: "Focus", value: "AI, Robotics & Intelligent Control" },
 ];
 

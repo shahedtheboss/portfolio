@@ -23,7 +23,7 @@ export const identity = {
 
 export const identityCard = [
   { label: "Degree", value: "Electrical & Electronic Engineering" },
-  { label: "Institution", value: "CUET, Bangladesh" },
+  { label: "Institution", value: "Chittagong University of Engineering and Technology, Bangladesh" },
   { label: "Experience", value: "Web Dev, ML, RL, Embedded Systems, Electronics" },
   { label: "Focus", value: "AI, Robotics & Intelligent Control" },
 ];

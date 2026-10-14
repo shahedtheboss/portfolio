@@ -286,8 +286,8 @@ function Hero() {
             <img
               src={portraitAsset.url}
               alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
-              width={1400}
-              height={1400}
+              width={450}
+              height={800}
               className="h-auto w-full object-cover"
             />
           </div>

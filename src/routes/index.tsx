@@ -288,7 +288,7 @@ function Hero() {
               alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
               width={450}
               height={800}
-              className="h-auto w-full object-cover"
+              className="h-auto max-h-[640px] w-full object-cover object-top"
             />
           </div>
           <div className="absolute -bottom-6 -left-4 right-4 rounded-xl border border-border bg-card/95 p-4 backdrop-blur sm:right-auto sm:w-80">

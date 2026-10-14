@@ -305,43 +305,49 @@ function About() {
         <Reveal>
           <SectionHeading eyebrow="ABOUT ME" title="How I Think & What Drives Me" />
         </Reveal>
-        <div className="grid gap-10 lg:grid-cols-5">
-          <Reveal className="lg:col-span-3">
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>
-                I'm naturally curious, enjoy solving challenging problems, and believe in learning
-                through experimentation. I like understanding the logic behind things, testing
-                ideas, and continuously improving through practice.
-              </p>
-              <p>
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">My mindset —</span>{" "}
-                Analytical, hands-on, and always learning. I value creative problem-solving,
-                strategic thinking, and sharing knowledge with others.
-              </p>
-              <p>
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">Beyond technology —</span>{" "}
-                I'm passionate about competitive gaming, where strategy and quick decisions matter,
-                and adventure, which gives me opportunities to explore, embrace challenges, and step
-                outside my comfort zone.
-              </p>
-              <p>
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">What drives me —</span>{" "}
-                The satisfaction of overcoming difficult challenges, discovering something new, and
-                turning ideas into something meaningful.
-              </p>
-            </div>
-          </Reveal>
-          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-1">
+        <Reveal className="max-w-3xl">
+          <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
+            <p>
+              I'm naturally curious, enjoy solving challenging problems, and believe in learning
+              through experimentation. I like understanding the logic behind things, testing ideas,
+              and continuously improving through practice.
+            </p>
+            <p>
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">My mindset —</span>{" "}
+              Analytical, hands-on, and always learning. I value creative problem-solving, strategic
+              thinking, and sharing knowledge with others.
+            </p>
+            <p>
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">Beyond technology —</span>{" "}
+              I'm passionate about competitive gaming, where strategy and quick decisions matter, and
+              adventure, which gives me opportunities to explore, embrace challenges, and step
+              outside my comfort zone.
+            </p>
+            <p>
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">What drives me —</span>{" "}
+              The satisfaction of overcoming difficult challenges, discovering something new, and
+              turning ideas into something meaningful.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-16">
+          <span className="block h-px w-16 bg-primary/60" aria-hidden="true" />
+          <h3 className="mt-4 font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            My Passion and Goals
+          </h3>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {aboutThemes.map((theme) => (
-              <Reveal key={theme.title}>
-                <div className="card-lift rounded-xl border border-border bg-card p-5">
-                  <h3 className="font-display text-sm font-semibold text-primary">{theme.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{theme.body}</p>
-                </div>
-              </Reveal>
+              <div
+                key={theme.title}
+                className="card-lift h-full rounded-xl border border-border bg-card p-5"
+              >
+                <h4 className="font-display text-sm font-semibold text-primary">{theme.title}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{theme.body}</p>
+              </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

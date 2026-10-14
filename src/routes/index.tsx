@@ -254,6 +254,15 @@ function Hero() {
             >
               <Linkedin size={20} />
             </a>
+            <a
+              href={identity.youtube}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="YouTube channel"
+              className="text-muted-foreground transition-colors hover:text-primary"
+            >
+              <Youtube size={20} />
+            </a>
           </div>
 
           <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 font-mono text-xs text-muted-foreground">
@@ -673,6 +682,14 @@ function Contact() {
               >
                 <Linkedin size={16} className="text-primary" /> LinkedIn
               </a>
+              <a
+                href={identity.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 text-sm text-foreground transition-colors hover:text-primary"
+              >
+                <Youtube size={16} className="text-primary" /> YouTube
+              </a>
             </div>
           </Reveal>
 
@@ -778,6 +795,10 @@ function Footer() {
           <a href={identity.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile"
             className="text-muted-foreground transition-colors hover:text-primary">
             <Linkedin size={18} />
+          </a>
+          <a href={identity.youtube} target="_blank" rel="noreferrer" aria-label="YouTube channel"
+            className="text-muted-foreground transition-colors hover:text-primary">
+            <Youtube size={18} />
           </a>
         </div>
         <p className="font-mono text-[11px] text-muted-foreground">

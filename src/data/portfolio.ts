@@ -174,7 +174,13 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Additional Tools",
     level: "Working Knowledge",
-    skills: ["MATLAB/Simulink", "OpenCV & computer vision", "LaTeX & technical writing"],
+    skills: [
+      "MATLAB/Simulink",
+      "OpenCV & computer vision",
+      "LaTeX & technical writing",
+      "Circuit simulation",
+      "Office software",
+    ],
   },
 ];
 

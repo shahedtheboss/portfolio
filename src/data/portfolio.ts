@@ -8,8 +8,8 @@ export const identity = {
   name: "Md. Shahdath Hussain",
   monogram: "MSH",
   eyebrow: "WEB DEVELOPER · EEE STUDENT · AI & ROBOTICS",
-  headlineA: "From Building for the Web",
-  headlineB: "to Building Intelligent Systems.",
+  headlineA: "Driven by Curiosity,",
+  headlineB: "Building Intelligent Systems",
   tagline:
     "EEE Undergraduate at CUET | Web Developer with 6 Years of Experience | AI, Robotics & Reinforcement Learning",
   intro:

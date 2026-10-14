@@ -419,5 +419,5 @@ export const education = {
   institution: "Chittagong University of Engineering and Technology (CUET)",
   program: "B.Sc. in Electrical and Electronic Engineering (EEE)",
   status: "Undergraduate student",
-  graduation: "Expected graduation: TBD", // TODO: set year
+  graduation: "Expected graduation: 2028",
 };

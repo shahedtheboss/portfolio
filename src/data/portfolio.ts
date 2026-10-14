@@ -159,16 +159,31 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: "Electrical Engineering & Automation",
+    title: "Electrical & Electronic Engineering",
     level: "Engineering Foundations",
     skills: [
-      "EEE fundamentals",
+      "Circuit analysis & network theorems",
+      "Analog & digital electronics",
+      "Electrical machines & transformers",
+      "Power systems & power electronics",
+      "Signals & systems",
       "Control systems",
+      "Microprocessors & microcontrollers",
+      "Measurement & instrumentation",
+      "Digital logic design",
+    ],
+  },
+  {
+    title: "Industrial Automation",
+    level: "Engineering Foundations",
+    skills: [
       "PLC programming",
       "Siemens TIA Portal",
       "Ladder logic",
       "HMI fundamentals",
       "Industrial sensors & automation",
+      "Motor controls & drives",
+      "SCADA & industrial communication",
     ],
   },
   {

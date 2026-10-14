@@ -90,8 +90,8 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
           setVisible(true);
           observer.disconnect();
         }
@@ -350,7 +350,7 @@ function Research() {
         </Reveal>
         <div className="grid gap-5 sm:grid-cols-2">
           {researchInterests.map((interest, i) => {
-            const Icon = researchIcons[i % researchIcons.length];
+            const Icon = researchIcons[i % researchIcons.length] ?? Brain;
             return (
               <Reveal key={interest.key}>
                 <article className="card-lift h-full rounded-xl border border-border bg-card p-6">

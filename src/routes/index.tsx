@@ -24,6 +24,10 @@ import projectVision from "@/assets/project-vision.jpg";
 import projectAutomation from "@/assets/project-automation.jpg";
 import projectMl from "@/assets/project-ml.jpg";
 import projectWeb from "@/assets/project-web.jpg";
+import projectRfid from "@/assets/project-rfid.jpg";
+import projectChat from "@/assets/project-chat.jpg";
+import projectRestaurant from "@/assets/project-restaurant.jpg";
+import projectOled from "@/assets/project-oled.jpg";
 
 import {
   aboutThemes,
@@ -67,6 +71,10 @@ const projectImages: Record<Project["image"], string> = {
   automation: projectAutomation,
   ml: projectMl,
   web: projectWeb,
+  rfid: projectRfid,
+  chat: projectChat,
+  restaurant: projectRestaurant,
+  oled: projectOled,
 };
 
 const navItems = [
@@ -441,20 +449,38 @@ function Skills() {
 
 function Projects() {
   const [filter, setFilter] = useState<string>("all");
+  const [expanded, setExpanded] = useState(false);
   const visible = projects.filter((p) => filter === "all" || p.category === filter);
+  const shown = expanded ? visible : visible.slice(0, 5);
+  const remaining = visible.length - shown.length;
 
   return (
     <section id="projects" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <Reveal>
           <SectionHeading eyebrow="FEATURED PROJECTS" title="Work in progress, work in production" />
+          <p className="-mt-8 mb-10 flex flex-wrap items-center gap-x-4 gap-y-3 text-sm text-muted-foreground">
+            All project details and source codes are available in my GitHub:
+            <a
+              href={identity.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-1.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+            >
+              <Github size={14} />
+              Visit my GitHub
+            </a>
+          </p>
         </Reveal>
 
         <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
           {projectFilters.map((f) => (
             <button
               key={f.key}
-              onClick={() => setFilter(f.key)}
+              onClick={() => {
+                setFilter(f.key);
+                setExpanded(false);
+              }}
               aria-pressed={filter === f.key}
               className={`rounded-full border px-4 py-1.5 font-mono text-xs transition-colors ${
                 filter === f.key
@@ -468,7 +494,7 @@ function Projects() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {visible.map((project) => (
+          {shown.map((project) => (
             <Reveal key={project.title}>
               <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
                 <div className="relative overflow-hidden">
@@ -497,7 +523,18 @@ function Projects() {
                     {project.categoryLabel.toUpperCase()}
                   </p>
                   <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
-                    {project.title}
+                    {project.link ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="transition-colors hover:text-primary"
+                      >
+                        {project.title}
+                      </a>
+                    ) : (
+                      project.title
+                    )}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {project.summary}
@@ -520,10 +557,38 @@ function Projects() {
                       </li>
                     ))}
                   </ul>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
+                    >
+                      <Github size={14} />
+                      View source on GitHub
+                    </a>
+                  )}
                 </div>
               </article>
             </Reveal>
           ))}
+
+          {remaining > 0 && (
+            <Reveal>
+              <div className="flex h-full min-h-64 flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-primary/40 bg-card/40 p-8 text-center">
+                <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground">
+                  {remaining} MORE
+                </p>
+                <button
+                  onClick={() => setExpanded(true)}
+                  className="inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-5 py-2.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+                >
+                  See more projects done by me
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </Reveal>
+          )}
         </div>
       </div>
     </section>

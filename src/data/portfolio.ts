@@ -5,8 +5,8 @@
  */
 
 export const identity = {
-  name: "Shahadat Hussain Shahed",
-  monogram: "SHS",
+  name: "Md. Shahdath Hussain",
+  monogram: "MSH",
   eyebrow: "WEB DEVELOPER · EEE STUDENT · AI & ROBOTICS",
   headlineA: "From Building for the Web",
   headlineB: "to Building Intelligent Systems.",
@@ -15,10 +15,10 @@ export const identity = {
   intro:
     "I'm an Electrical and Electronic Engineering student at CUET with approximately six years of experience in web development. Having spent years building for the web, I'm now expanding into artificial intelligence, reinforcement learning, robotics, and intelligent control systems — combining software development with engineering fundamentals to build systems that solve meaningful real-world problems.",
   status: "Currently exploring: Reinforcement Learning & Robotics",
-  // TODO: replace with real links
-  email: "shahed@example.com", // TODO
-  github: "https://github.com/", // TODO
-  linkedin: "https://www.linkedin.com/", // TODO
+  email: "shahedshahadat0123@gmail.com",
+  github: "https://github.com/shahedtheboss",
+  linkedin: "https://www.linkedin.com/in/shahadat-hussain-shahed/",
+  youtube: "https://www.youtube.com/@shahedtheboss",
 };
 
 export const identityCard = [

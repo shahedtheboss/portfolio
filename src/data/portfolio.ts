@@ -201,23 +201,110 @@ export const skillGroups: SkillGroup[] = [
 
 export type Project = {
   title: string;
-  category: "web" | "ai" | "robotics";
+  category: "web" | "ai" | "robotics" | "embedded";
   categoryLabel: string;
   status: "Completed" | "In Progress" | "Planned";
   summary: string;
   details: string[];
   tech: string[];
-  image: "robot" | "vision" | "automation" | "ml" | "web";
+  image: "robot" | "vision" | "automation" | "ml" | "web" | "rfid" | "chat" | "restaurant" | "oled";
+  link?: string;
 };
 
 export const projectFilters = [
   { key: "all", label: "All Projects" },
   { key: "web", label: "Web Development" },
+  { key: "embedded", label: "Embedded & IoT" },
   { key: "ai", label: "AI & Machine Learning" },
   { key: "robotics", label: "Robotics & Automation" },
 ] as const;
 
 export const projects: Project[] = [
+  {
+    title: "Real-Time RFID Access Logging System",
+    category: "embedded",
+    categoryLabel: "Embedded Systems · ESP32 · Next.js",
+    status: "Completed",
+    summary:
+      "An RFID-based access logger: an ESP32 reads tags while a full-stack Next.js dashboard records and displays access events in real time.",
+    details: [
+      "RFID tag reading on an ESP32",
+      "Real-time logging of access events",
+      "Full-stack Next.js dashboard",
+      "Embedded firmware meeting full-stack web development",
+    ],
+    tech: ["ESP32", "C++", "Next.js", "JavaScript"],
+    image: "rfid",
+    link: "https://github.com/shahedtheboss/Real-Time-RFID-Access-Logging-System-with-ESP32-Next.js-Full-Stack-Dashboard",
+  },
+  {
+    title: "WhatsApp Clone",
+    category: "web",
+    categoryLabel: "Web Development · React · Messaging",
+    status: "Completed",
+    summary:
+      "A global messaging application built with React — Google authentication and a chat interface modelled on WhatsApp.",
+    details: [
+      "Google authentication",
+      "Chat interface modelled on WhatsApp",
+      "Conversation and message flow",
+      "Responsive layout",
+    ],
+    tech: ["React", "JavaScript", "CSS"],
+    image: "chat",
+    link: "https://github.com/shahedtheboss/whatsapp-clone",
+  },
+  {
+    title: "Next Restaurant App",
+    category: "web",
+    categoryLabel: "Web Development · Next.js · Full Stack",
+    status: "Completed",
+    summary:
+      "A complete full-stack restaurant and food-ordering web application, from authentication and ordering through to deployment.",
+    details: [
+      "Next.js and React frontend",
+      "Node.js backend with MongoDB",
+      "User authentication and ordering flow",
+      "Deployed on Vercel",
+    ],
+    tech: ["Next.js", "React", "Node.js", "MongoDB", "Vercel"],
+    image: "restaurant",
+    link: "https://github.com/shahedtheboss/nextrestaurantapp",
+  },
+  {
+    title: "Bistro92 — Smart Food Ordering System",
+    category: "embedded",
+    categoryLabel: "Embedded Systems · ESP32 · Firebase",
+    status: "Completed",
+    summary:
+      "A smart food-ordering system built around an ESP32 with an OLED display and a Firebase backend.",
+    details: [
+      "ESP32 firmware written in C++",
+      "OLED display for order feedback",
+      "Firebase backend for order data",
+      "Physical interface for placing orders",
+    ],
+    tech: ["ESP32", "C++", "OLED", "Firebase"],
+    image: "oled",
+    link: "https://github.com/shahedtheboss/bistro92",
+  },
+  {
+    title: "Covid Tracker",
+    category: "web",
+    categoryLabel: "Web Development · React · Live Data",
+    status: "Completed",
+    summary:
+      "A worldwide and country-wise COVID-19 tracker app built with React, presenting live statistics that can be explored by country.",
+    details: [
+      "Live case-data fetching",
+      "Worldwide and country-wise views",
+      "React state and filtering",
+      "Responsive data display",
+    ],
+    tech: ["React", "JavaScript", "CSS"],
+    image: "web",
+    link: "https://github.com/shahedtheboss/covidtracker",
+  },
   {
     title: "DQN-Based Robot Navigation & Obstacle Avoidance",
     category: "robotics",
@@ -233,6 +320,22 @@ export const projects: Project[] = [
     ],
     tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
     image: "robot",
+  },
+  {
+    title: "Breast Cancer Classification Using PyTorch",
+    category: "ai",
+    categoryLabel: "Machine Learning · PyTorch · Model Evaluation",
+    status: "Completed",
+    summary:
+      "An educational supervised-learning experiment on the scikit-learn breast cancer dataset — preprocessing, scaling, and training a neural-network classifier.",
+    details: [
+      "Feature preprocessing, splitting & scaling",
+      "Neural network design with PyTorch",
+      "Training loop with loss function & optimizer",
+      "Model performance evaluation",
+    ],
+    tech: ["Python", "PyTorch", "scikit-learn", "NumPy"],
+    image: "ml",
   },
   {
     title: "Smart Quality Inspector — Industrial Defect Detection",
@@ -265,38 +368,6 @@ export const projects: Project[] = [
     ],
     tech: ["Raspberry Pi", "PLC", "Machine Vision", "Sensors & Actuators"],
     image: "automation",
-  },
-  {
-    title: "Breast Cancer Classification Using PyTorch",
-    category: "ai",
-    categoryLabel: "Machine Learning · PyTorch · Model Evaluation",
-    status: "Completed",
-    summary:
-      "An educational supervised-learning experiment on the scikit-learn breast cancer dataset — preprocessing, scaling, and training a neural-network classifier.",
-    details: [
-      "Feature preprocessing, splitting & scaling",
-      "Neural network design with PyTorch",
-      "Training loop with loss function & optimizer",
-      "Model performance evaluation",
-    ],
-    tech: ["Python", "PyTorch", "scikit-learn", "NumPy"],
-    image: "ml",
-  },
-  {
-    title: "Selected Web Development Projects",
-    category: "web",
-    categoryLabel: "Web Development · Software Engineering",
-    status: "Completed",
-    summary:
-      "A selection of websites and web applications from six years of development — implementation quality, thoughtful design, and practical problem-solving.",
-    details: [
-      "Frontend and backend implementation",
-      "Responsive design & deployment",
-      "Debugging, maintenance & iteration",
-      "Real projects with real users",
-    ],
-    tech: ["HTML", "CSS", "JavaScript", "Git"],
-    image: "web",
   },
 ];
 

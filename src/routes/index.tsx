@@ -265,8 +265,8 @@ function Hero() {
             </a>
           </div>
 
-          <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 font-mono text-xs text-muted-foreground">
-            <span className="h-2 w-2 rounded-full bg-primary animate-pulse-dot" aria-hidden="true" />
+          <p className="mt-8 inline-flex max-w-full items-start gap-2 rounded-full border border-border bg-card px-4 py-2 font-mono text-xs leading-relaxed text-muted-foreground">
+            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary animate-pulse-dot" aria-hidden="true" />
             {identity.status}
           </p>
         </div>

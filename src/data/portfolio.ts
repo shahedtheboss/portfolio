@@ -14,7 +14,7 @@ export const identity = {
     "EEE Undergraduate at CUET | Web Developer with 6 Years of Experience | AI, Robotics & Reinforcement Learning",
   intro:
     "I'm an Electrical and Electronic Engineering student at CUET with approximately six years of experience in web development. Having spent years building for the web, I'm now expanding into artificial intelligence, reinforcement learning, robotics, and intelligent control systems — combining software development with engineering fundamentals to build systems that solve meaningful real-world problems.",
-  status: "Currently exploring: Reinforcement Learning & Robotics",
+  status: "Currently exploring: Reinforcement Learning, Robotics, Deep Learning & Embedded Systems",
   email: "shahedshahadat0123@gmail.com",
   github: "https://github.com/shahedtheboss",
   linkedin: "https://www.linkedin.com/in/shahadat-hussain-shahed/",

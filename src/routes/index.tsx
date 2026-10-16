@@ -758,6 +758,71 @@ function Journey() {
   );
 }
 
+function Certifications() {
+  return (
+    <section id="certifications" className="border-t border-border">
+      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <Reveal>
+          <SectionHeading
+            eyebrow="CERTIFICATIONS"
+            title={
+              <>
+                Recognition, Training & <span className="text-gradient">Competition</span>
+              </>
+            }
+          />
+        </Reveal>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {certifications.map((item) => {
+            const media = certificationMedia[item.key];
+            return (
+              <Reveal key={item.key}>
+                <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
+                  <div className="relative aspect-[4/3] overflow-hidden border-b border-border bg-background">
+                    <img
+                      src={media.thumb}
+                      alt={`${item.award} — ${item.title}`}
+                      width={media.width}
+                      height={media.height}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                    <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-background/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-primary backdrop-blur">
+                      <BadgeCheck size={12} aria-hidden="true" />
+                      {item.award}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h3 className="font-display text-base font-semibold leading-snug text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-primary">{item.issuer}</p>
+                    {item.period && (
+                      <p className="mt-1.5 font-mono text-[11px] text-muted-foreground">
+                        {item.period}
+                      </p>
+                    )}
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+                    <a
+                      href={media.full}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
+                    >
+                      {media.isPdf ? <FileText size={14} /> : <Award size={14} />}
+                      View certificate
+                    </a>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   const display = (url: string) =>
     url

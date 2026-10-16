@@ -29,10 +29,10 @@ import projectVision from "@/assets/project-vision.jpg";
 import projectAutomation from "@/assets/project-automation.jpg";
 import projectMl from "@/assets/project-ml.jpg";
 import projectWeb from "@/assets/project-web.jpg";
-import projectRfid from "@/assets/project-rfid.jpg";
+import projectRfidAsset from "@/assets/project-rfid.png.asset.json";
 import projectChat from "@/assets/project-chat.jpg";
-import projectRestaurant from "@/assets/project-restaurant.jpg";
-import projectOled from "@/assets/project-oled.jpg";
+import projectRestaurantAsset from "@/assets/project-restaurant.jpg.asset.json";
+import projectOledAsset from "@/assets/project-oled.png.asset.json";
 import certMlContest from "@/assets/cert-ml-contest.png.asset.json";
 import certIndustrialAutomation from "@/assets/cert-industrial-automation.png.asset.json";
 import certSciblitz from "@/assets/cert-sciblitz.png.asset.json";
@@ -84,10 +84,10 @@ const projectImages: Record<Project["image"], string> = {
   automation: projectAutomation,
   ml: projectMl,
   web: projectWeb,
-  rfid: projectRfid,
+  rfid: projectRfidAsset.url,
   chat: projectChat,
-  restaurant: projectRestaurant,
-  oled: projectOled,
+  restaurant: projectRestaurantAsset.url,
+  oled: projectOledAsset.url,
 };
 
 const certificationMedia: Record<

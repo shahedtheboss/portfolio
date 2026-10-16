@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 import portraitAsset from "@/assets/portrait.jpg.asset.json";
-import projectRobot from "@/assets/project-robot.jpg";
+import projectRobotAsset from "@/assets/project-robot.png.asset.json";
 import projectVision from "@/assets/project-vision.jpg";
 import projectAutomation from "@/assets/project-automation.jpg";
 import projectMl from "@/assets/project-ml.jpg";
@@ -79,7 +79,7 @@ export const Route = createFileRoute("/")({
 });
 
 const projectImages: Record<Project["image"], string> = {
-  robot: projectRobot,
+  robot: projectRobotAsset.url,
   vision: projectVision,
   automation: projectAutomation,
   ml: projectMl,

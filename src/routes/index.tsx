@@ -4,11 +4,14 @@ import {
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
+  Award,
+  BadgeCheck,
   Brain,
   CircuitBoard,
   Cpu,
   Eye,
   Factory,
+  FileText,
   Github,
   GraduationCap,
   Linkedin,
@@ -30,9 +33,16 @@ import projectRfid from "@/assets/project-rfid.jpg";
 import projectChat from "@/assets/project-chat.jpg";
 import projectRestaurant from "@/assets/project-restaurant.jpg";
 import projectOled from "@/assets/project-oled.jpg";
+import certMlContest from "@/assets/cert-ml-contest.png.asset.json";
+import certIndustrialAutomation from "@/assets/cert-industrial-automation.png.asset.json";
+import certSciblitz from "@/assets/cert-sciblitz.png.asset.json";
+import certMieRobolution from "@/assets/cert-mie-robolution.png.asset.json";
+import certDatathonJpg from "@/assets/cert-datathon.jpg.asset.json";
+import certDatathonPdf from "@/assets/cert-datathon.pdf.asset.json";
 
 import {
   aboutThemes,
+  certifications,
   education,
   experience,
   identity,
@@ -42,6 +52,7 @@ import {
   projects,
   researchInterests,
   skillGroups,
+  type Certification,
   type Project,
 } from "@/data/portfolio";
 
@@ -79,6 +90,33 @@ const projectImages: Record<Project["image"], string> = {
   oled: projectOled,
 };
 
+const certificationMedia: Record<
+  Certification["key"],
+  { thumb: string; full: string; width: number; height: number; isPdf?: boolean }
+> = {
+  mlContest: { thumb: certMlContest.url, full: certMlContest.url, width: 1280, height: 960 },
+  industrialAutomation: {
+    thumb: certIndustrialAutomation.url,
+    full: certIndustrialAutomation.url,
+    width: 480,
+    height: 360,
+  },
+  sciblitz: { thumb: certSciblitz.url, full: certSciblitz.url, width: 1080, height: 797 },
+  mieRobolution: {
+    thumb: certMieRobolution.url,
+    full: certMieRobolution.url,
+    width: 480,
+    height: 360,
+  },
+  datathon: {
+    thumb: certDatathonJpg.url,
+    full: certDatathonPdf.url,
+    width: 1755,
+    height: 1241,
+    isPdf: true,
+  },
+};
+
 const navItems = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
@@ -86,6 +124,7 @@ const navItems = [
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "certifications", label: "Certifications" },
   { id: "journey", label: "Journey" },
   { id: "contact", label: "Contact" },
 ];
@@ -873,6 +912,7 @@ function Portfolio() {
         <Skills />
         <Projects />
         <Experience />
+        <Certifications />
         <Journey />
         <Contact />
       </main>

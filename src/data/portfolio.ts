@@ -404,6 +404,56 @@ export const experience = [
   },
 ];
 
+export type Certification = {
+  key: "mlContest" | "industrialAutomation" | "sciblitz" | "mieRobolution" | "datathon";
+  award: string;
+  title: string;
+  issuer: string;
+  period?: string;
+  body: string;
+};
+
+export const certifications: Certification[] = [
+  {
+    key: "mlContest",
+    award: "1st Prize",
+    title: "CUET ML Contest 2.0 — Beginner Track",
+    issuer: "IEEE Computer Society CUET Student Branch Chapter",
+    body: "Secured first prize in the Beginner Track of the CUET ML Contest 2.0, organized by the IEEE Computer Society CUET Student Branch Chapter.",
+  },
+  {
+    key: "industrialAutomation",
+    award: "Training Completion",
+    title: "Industrial Automation Training",
+    issuer: "IICT, CUET · EDGE Project, Bangladesh Computer Council (ICT Division)",
+    period: "Apr – May 2026 · 80 hours",
+    body: 'Completed the 80-hour "Industrial Automation" training under the Digital Skills 4 Students initiative, conducted by the Institute of Information and Communication Technology (IICT), CUET.',
+  },
+  {
+    key: "sciblitz",
+    award: "Certificate of Appreciation",
+    title: "3 Minute Thesis (3MT) — SciBlitz 1.0",
+    issuer: "IEEE CUET Student Branch",
+    body: "Recognised for presenting scholarly work in the 3 Minute Thesis segment of SciBlitz 1.0, communicating research concisely and effectively.",
+  },
+  {
+    key: "mieRobolution",
+    award: "Certificate of Participation",
+    title: "Techathon — MIE ROBOLUTION 1.0",
+    issuer: "Department of Mechatronics & Industrial Engineering, CUET",
+    period: "May 8 – 10, 2025",
+    body: "Took part in the Techathon at MIE ROBOLUTION 1.0 as a member of team Quantum Flex.",
+  },
+  {
+    key: "datathon",
+    award: "Certificate of Participation",
+    title: "Datathon — CUET CSE Fest 2025",
+    issuer: "Department of CSE, CUET · Delineate",
+    period: "2025",
+    body: "Participated in the Datathon as a member of team Al-Wakeel, working on data analysis, problem-solving, and solution development.",
+  },
+];
+
 export const journey = [
   { step: "01", title: "Start of Programming", body: "Started learning C programming in junior high in 2017.", ahead: false },
   { step: "02", title: "Web Development", body: "Began teaching myself web development in 2020, and have been building and learning with it ever since.", ahead: false },

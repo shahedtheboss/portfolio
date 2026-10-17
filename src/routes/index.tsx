@@ -187,11 +187,13 @@ function Nav() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
-        <a href="#home" className="flex items-center gap-2 font-mono text-sm font-semibold text-foreground">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md border border-primary/50 bg-card font-display text-xs text-primary glow-primary">
+        <a href="#home" className="flex min-w-0 items-center gap-2 font-mono text-sm font-semibold text-foreground">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-primary/50 bg-card font-display text-xs text-primary glow-primary">
             {identity.monogram}
           </span>
-          <span className="hidden sm:inline">{identity.name}</span>
+          <span className="truncate font-display text-[15px] font-bold tracking-tight text-foreground sm:text-sm">
+            {identity.name}
+          </span>
         </a>
 
         <ul className="hidden items-center gap-1 lg:flex">
@@ -253,7 +255,7 @@ function Hero() {
         aria-hidden="true"
       />
       <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-28">
-        <div>
+        <div className="order-2 lg:order-1">
           <p className="font-mono text-xs tracking-[0.25em] text-primary">{identity.eyebrow}</p>
           <h1 className="mt-5 font-display text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             {identity.headlineA}{" "}
@@ -320,14 +322,14 @@ function Hero() {
           </p>
         </div>
 
-        <div className="relative">
+        <div className="relative order-1 lg:order-2">
           <div className="relative overflow-hidden rounded-2xl border border-primary/40 glow-primary">
             <img
               src={portraitAsset.url}
               alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
               width={450}
               height={610}
-              className="h-auto max-h-[640px] w-full object-cover object-top"
+              className="h-auto max-h-[460px] w-full object-cover object-top sm:max-h-[560px] lg:max-h-[640px]"
             />
           </div>
           <div className="absolute -bottom-6 -left-4 right-4 rounded-xl border border-border bg-card/95 p-4 backdrop-blur sm:right-auto sm:w-80">

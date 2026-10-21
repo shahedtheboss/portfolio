@@ -237,7 +237,7 @@ export const projects: Project[] = [
     image: "automation",
   },
   {
-    title: "DQN-Based Robot Navigation & Obstacle Avoidance",
+    title: "DQN-Based Robot Navigation & Obstacle Avoidance Research",
     category: "robotics",
     categoryLabel: "Reinforcement Learning · Robotics · ROS 2",
     status: "In Progress",
@@ -251,6 +251,7 @@ export const projects: Project[] = [
     ],
     tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
     image: "robot",
+    link: "https://github.com/shahedtheboss/turtle-bot-research",
   },
   {
     title: "Real-Time RFID Access Logging System",

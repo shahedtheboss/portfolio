@@ -11,13 +11,24 @@ describe("certifications", () => {
     });
   });
 
-  it("lists all five certificates with issuer and description", () => {
-    expect(certifications).toHaveLength(5);
+  it("lists all six certificates with issuer and description", () => {
+    expect(certifications).toHaveLength(6);
     for (const item of certifications) {
       expect(item.title.length).toBeGreaterThan(0);
       expect(item.issuer.length).toBeGreaterThan(0);
       expect(item.body.length).toBeGreaterThan(0);
     }
+  });
+
+  it("records the PyTorch Bootcamp grade and issue date", () => {
+    const pytorch = certifications.find((item) => item.key === "pytorchBootcamp");
+    expect(pytorch).toMatchObject({
+      award: "Certificate of Excellence",
+      title: "PyTorch Bootcamp",
+      issuer: "OpenCV University · OpenCV.org",
+      period: "October 19, 2026",
+    });
+    expect(pytorch?.body).toContain("100% grade");
   });
 
   it("keeps one unique media key per certificate", () => {

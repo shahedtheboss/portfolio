@@ -39,6 +39,8 @@ import certSciblitz from "@/assets/cert-sciblitz.png.asset.json";
 import certMieRobolution from "@/assets/cert-mie-robolution.png.asset.json";
 import certDatathonJpg from "@/assets/cert-datathon.jpg.asset.json";
 import certDatathonPdf from "@/assets/cert-datathon.pdf.asset.json";
+import certPytorchJpg from "@/assets/cert-pytorch.jpg.asset.json";
+import certPytorchPdf from "@/assets/cert-pytorch.pdf.asset.json";
 
 import {
   aboutThemes,
@@ -113,6 +115,13 @@ const certificationMedia: Record<
     full: certDatathonPdf.url,
     width: 1755,
     height: 1241,
+    isPdf: true,
+  },
+  pytorchBootcamp: {
+    thumb: certPytorchJpg.url,
+    full: certPytorchPdf.url,
+    width: 1200,
+    height: 900,
     isPdf: true,
   },
 };

@@ -406,7 +406,13 @@ export const experience = [
 ];
 
 export type Certification = {
-  key: "mlContest" | "industrialAutomation" | "sciblitz" | "mieRobolution" | "datathon";
+  key:
+    | "mlContest"
+    | "pytorchBootcamp"
+    | "industrialAutomation"
+    | "sciblitz"
+    | "mieRobolution"
+    | "datathon";
   award: string;
   title: string;
   issuer: string;
@@ -421,6 +427,14 @@ export const certifications: Certification[] = [
     title: "CUET ML Contest 2.0 — Beginner Track",
     issuer: "IEEE Computer Society CUET Student Branch Chapter",
     body: "Secured first prize in the Beginner Track of the CUET ML Contest 2.0, organized by the IEEE Computer Society CUET Student Branch Chapter.",
+  },
+  {
+    key: "pytorchBootcamp",
+    award: "Certificate of Excellence",
+    title: "PyTorch Bootcamp",
+    issuer: "OpenCV University · OpenCV.org",
+    period: "October 19, 2026",
+    body: "Completed the PyTorch Bootcamp with a 100% grade, issued by OpenCV.org and signed by Dr. Satya Malick (CEO) and Dr. Gary Bradski (President).",
   },
   {
     key: "industrialAutomation",

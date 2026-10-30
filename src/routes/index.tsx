@@ -977,7 +977,39 @@ function Footer() {
   );
 }
 
+function useSmoothScroll() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let lenis: { raf: (t: number) => void; destroy: () => void; scrollTo: (t: Element, o?: object) => void } | null = null;
+    let frame = 0;
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest('a[href^="#"]');
+      const id = a?.getAttribute("href");
+      if (!lenis || !id || id === "#") return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -64, duration: 1.4 });
+    };
+    import("lenis").then(({ default: Lenis }) => {
+      lenis = new Lenis({ duration: 1.2, easing: (t: number) => 1 - Math.pow(1 - t, 4) });
+      const loop = (t: number) => {
+        lenis?.raf(t);
+        frame = requestAnimationFrame(loop);
+      };
+      frame = requestAnimationFrame(loop);
+    });
+    document.addEventListener("click", onClick);
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("click", onClick);
+      lenis?.destroy();
+    };
+  }, []);
+}
+
 function Portfolio() {
+  useSmoothScroll();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />

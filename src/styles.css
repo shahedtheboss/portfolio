@@ -133,17 +133,19 @@
 
 /* Reveal-on-scroll animation */
 @utility animate-reveal {
-  animation: reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes reveal {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(48px) scale(0.98);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 

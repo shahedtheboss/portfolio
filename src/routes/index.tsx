@@ -1008,10 +1008,39 @@ function useSmoothScroll() {
   }, []);
 }
 
+/* Sea-green brightness spotlight that follows the cursor */
+function CursorGlow() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const root = document.documentElement;
+    let frame = 0;
+    let x = -1;
+    let y = -1;
+    const apply = () => {
+      frame = 0;
+      if (x < 0) return;
+      root.style.setProperty("--cursor-x", `${x}px`);
+      root.style.setProperty("--cursor-y", `${y}px`);
+    };
+    const onMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+  return <div aria-hidden="true" className="cursor-glow" />;
+}
+
 function Portfolio() {
   useSmoothScroll();
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <CursorGlow />
       <Nav />
       <main>
         <Hero />

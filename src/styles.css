@@ -41,7 +41,7 @@
 :root {
   --radius: 0.75rem;
   --background: oklch(0.13 0.025 255); /* #070B14 */
-  --surface: oklch(0.17 0.03 255); /* #0D1422 */
+  --surface: oklch(0.17 0.03 255 / 0.7); /* #0D1422 translucent so the cursor glow can pass through section bands */
   --card: oklch(0.2 0.035 255); /* #111C2D */
   --card-foreground: oklch(0.96 0.01 240);
   --popover: oklch(0.17 0.03 255);
@@ -175,7 +175,7 @@
 .cursor-glow {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 0;
   pointer-events: none;
   mix-blend-mode: screen;
   background:

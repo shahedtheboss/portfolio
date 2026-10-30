@@ -1045,9 +1045,9 @@ function Portfolio() {
       <main>
         <Hero />
         <About />
-        <Research />
         <Skills />
         <Projects />
+        <Research />
         <Experience />
         <Certifications />
         <Journey />

@@ -129,9 +129,9 @@ const certificationMedia: Record<
 const navItems = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "research", label: "Research" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
+  { id: "research", label: "Research" },
   { id: "experience", label: "Experience" },
   { id: "certifications", label: "Certifications" },
   { id: "journey", label: "Journey" },

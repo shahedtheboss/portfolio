@@ -199,30 +199,86 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
+export type ProjectCategory = "robotics" | "mlops" | "ml" | "embedded" | "web" | "automation";
+
 export type Project = {
   title: string;
-  category: "web" | "ai" | "robotics" | "embedded";
+  category: ProjectCategory;
   categoryLabel: string;
-  status: "Completed" | "In Progress" | "Planned";
+  status: "Completed" | "Completed · Ongoing Research" | "In Progress" | "Planned";
   summary: string;
   details: string[];
   tech: string[];
-  image: "robot" | "vision" | "automation" | "ml" | "web" | "rfid" | "chat" | "restaurant" | "oled";
+  image:
+    | "robot" | "vision" | "automation" | "ml" | "web" | "rfid" | "chat" | "restaurant" | "oled"
+    | "frozenlake" | "mlops" | "secom" | "digits" | "distance" | "emp" | "todo" | "plc";
   link?: string;
 };
 
-export const projectFilters = [
-  { key: "all", label: "All Projects" },
+/** Project sections in display order; also drives the header's Projects dropdown. */
+export const projectCategories: { key: ProjectCategory; label: string }[] = [
+  { key: "robotics", label: "Robotics and Reinforcement Learning" },
+  { key: "mlops", label: "MLOps and GenAI" },
+  { key: "ml", label: "Machine Learning" },
+  { key: "embedded", label: "Embedded Systems and Electronics" },
   { key: "web", label: "Web Development" },
-  { key: "embedded", label: "Embedded & IoT" },
-  { key: "ai", label: "AI & Machine Learning" },
-  { key: "robotics", label: "Robotics & Automation" },
-] as const;
+  { key: "automation", label: "Industrial Automation" },
+];
 
 export const projects: Project[] = [
   {
-    title: "AI-Assisted Industrial Bottle Inspection & Rejection",
+    title: "DQN-Based Robot Navigation & Obstacle Avoidance Research",
     category: "robotics",
+    categoryLabel: "Reinforcement Learning · Robotics · ROS 2",
+    status: "Completed · Ongoing Research",
+    summary:
+      "A robot navigation system where a deep reinforcement learning agent selects movement actions from environmental observations.",
+    details: [
+      "DQN-based action selection from sensor inputs",
+      "Reward-function design for navigation & obstacle avoidance",
+      "Experience replay and target networks",
+      "ROS 2 communication and simulation integration",
+    ],
+    tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
+    image: "robot",
+    link: "https://github.com/shahedtheboss/turtle-bot-research",
+  },
+  {
+    title: "Deep Q-Learning on FrozenLake",
+    category: "robotics",
+    categoryLabel: "Reinforcement Learning · PyTorch · Gymnasium",
+    status: "Completed",
+    summary:
+      "A hands-on Deep Q-Network implementation on Gymnasium's 4×4 FrozenLake, built to understand how an agent learns to reach a goal while avoiding holes through trial and error.",
+    details: [
+      "Epsilon-greedy exploration vs. exploitation",
+      "Experience replay with random mini-batches",
+      "Target network for stable Q-value targets",
+      "Reward and epsilon history plots",
+    ],
+    tech: ["Python", "PyTorch", "Gymnasium", "DQN"],
+    image: "frozenlake",
+    link: "https://github.com/shahedtheboss/frozen-lake-dqn",
+  },
+  {
+    title: "Self-Healing ML Platform with Drift-Triggered Retraining",
+    category: "mlops",
+    categoryLabel: "MLOps · Monitoring · Kubernetes",
+    status: "Planned",
+    summary:
+      "A model running as a live service that detects its own degradation and fixes it — with a drift simulator that corrupts incoming data and a dashboard showing the system detect, retrain and recover.",
+    details: [
+      "Validated data ingestion (Great Expectations / Pandera) and a Feast feature store",
+      "Airflow / Prefect / Kubeflow pipelines with MLflow tracking and model registry",
+      "FastAPI / BentoML serving on Kubernetes, monitored with Prometheus, Grafana & Evidently",
+      "Automatic retrain, shadow-deploy and canary release with rollback on drift",
+    ],
+    tech: ["MLflow", "Feast", "Airflow", "FastAPI", "Kubernetes", "Evidently", "Grafana"],
+    image: "mlops",
+  },
+  {
+    title: "AI-Assisted Industrial Bottle Inspection & Rejection",
+    category: "ml",
     categoryLabel: "Industrial Automation · Machine Vision · PLC",
     status: "Planned",
     summary:
@@ -237,21 +293,70 @@ export const projects: Project[] = [
     image: "automation",
   },
   {
-    title: "DQN-Based Robot Navigation & Obstacle Avoidance Research",
-    category: "robotics",
-    categoryLabel: "Reinforcement Learning · Robotics · ROS 2",
-    status: "In Progress",
+    title: "Breast Cancer Classification Using PyTorch",
+    category: "ml",
+    categoryLabel: "Machine Learning · PyTorch · Model Evaluation",
+    status: "Completed",
     summary:
-      "A robot navigation system where a deep reinforcement learning agent selects movement actions from environmental observations.",
+      "An educational supervised-learning experiment on the scikit-learn breast cancer dataset — preprocessing, scaling, and training a neural-network classifier.",
     details: [
-      "DQN-based action selection from sensor inputs",
-      "Reward-function design for navigation & obstacle avoidance",
-      "Experience replay and target networks",
-      "ROS 2 communication and simulation integration",
+      "Feature preprocessing, splitting & scaling",
+      "Neural network design with PyTorch",
+      "Training loop with loss function & optimizer",
+      "Model performance evaluation",
     ],
-    tech: ["Python", "PyTorch", "DQN", "ROS 2", "Gazebo"],
-    image: "robot",
-    link: "https://github.com/shahedtheboss/turtle-bot-research",
+    tech: ["Python", "PyTorch", "scikit-learn", "NumPy"],
+    image: "ml",
+  },
+  {
+    title: "Smart Quality Inspector — Industrial Defect Detection",
+    category: "ml",
+    categoryLabel: "Computer Vision · PyTorch · Industrial AI",
+    status: "Planned",
+    summary:
+      "A machine-learning system for identifying defective products and unusual visual patterns in industrial inspection scenarios.",
+    details: [
+      "Image preprocessing & CNN-based feature extraction",
+      "Model training and evaluation",
+      "Precision, recall, F1-score & confusion-matrix analysis",
+      "A simple image-upload demo interface",
+    ],
+    tech: ["Python", "PyTorch", "CNN", "OpenCV"],
+    image: "vision",
+  },
+  {
+    title: "Semiconductor Defect Detection (SECOM)",
+    category: "ml",
+    categoryLabel: "Machine Learning · Kaggle · Sensor Data",
+    status: "Completed",
+    summary:
+      "Sensor-based semiconductor defect detection on the SECOM dataset — 590 sensor features, heavy missing data and only ~6.6% defective samples. Best public leaderboard ROC-AUC: 0.79887.",
+    details: [
+      "Handling missing values in high-dimensional sensor data",
+      "Tackling severe class imbalance",
+      "Feature selection experiments",
+      "Comparing multiple classifiers by ROC-AUC",
+    ],
+    tech: ["Python", "scikit-learn", "pandas", "Kaggle"],
+    image: "secom",
+    link: "https://github.com/shahedtheboss/SECOM_kaggle_comp",
+  },
+  {
+    title: "Handwritten Digit Recognition with a PyTorch CNN",
+    category: "ml",
+    categoryLabel: "Deep Learning · PyTorch · Kaggle",
+    status: "Completed",
+    summary:
+      "A CNN built from scratch in PyTorch for the Kaggle Digit Recognizer competition, classifying 28×28 handwritten digits — best public leaderboard accuracy 99.392%.",
+    details: [
+      "Convolutional layers with batch normalization",
+      "Pooling and dropout for generalization",
+      "Data augmentation",
+      "Trained on 42,000 images, predicted 28,000",
+    ],
+    tech: ["Python", "PyTorch", "CNN", "Kaggle"],
+    image: "digits",
+    link: "https://github.com/shahedtheboss/digit-recognizer-CNN-kaggle",
   },
   {
     title: "Real-Time RFID Access Logging System",
@@ -271,23 +376,6 @@ export const projects: Project[] = [
     link: "https://github.com/shahedtheboss/Real-Time-RFID-Access-Logging-System-with-ESP32-Next.js-Full-Stack-Dashboard",
   },
   {
-    title: "Next Restaurant App",
-    category: "web",
-    categoryLabel: "Web Development · Next.js · Full Stack",
-    status: "Completed",
-    summary:
-      "A complete full-stack restaurant and food-ordering web application, from authentication and ordering through to deployment.",
-    details: [
-      "Next.js and React frontend",
-      "Node.js backend with MongoDB",
-      "User authentication and ordering flow",
-      "Deployed on Vercel",
-    ],
-    tech: ["Next.js", "React", "Node.js", "MongoDB", "Vercel"],
-    image: "restaurant",
-    link: "https://github.com/shahedtheboss/nextrestaurantapp",
-  },
-  {
     title: "Bistro92 — Smart Food Ordering System",
     category: "embedded",
     categoryLabel: "Embedded Systems · ESP32 · Firebase",
@@ -305,36 +393,38 @@ export const projects: Project[] = [
     link: "https://github.com/shahedtheboss/bistro92",
   },
   {
-    title: "Breast Cancer Classification Using PyTorch",
-    category: "ai",
-    categoryLabel: "Machine Learning · PyTorch · Model Evaluation",
+    title: "LED Distance Detector Without a Microcontroller",
+    category: "embedded",
+    categoryLabel: "Electronics · 555 Timer · Ultrasonic Sensing",
     status: "Completed",
     summary:
-      "An educational supervised-learning experiment on the scikit-learn breast cancer dataset — preprocessing, scaling, and training a neural-network classifier.",
+      "An ultrasonic distance-detection circuit built with a 555 timer IC and discrete components, giving visual and audible alerts when an object approaches — no programmable microcontroller involved.",
     details: [
-      "Feature preprocessing, splitting & scaling",
-      "Neural network design with PyTorch",
-      "Training loop with loss function & optimizer",
-      "Model performance evaluation",
+      "Ultrasonic sensor for object detection",
+      "555 timer-based signal processing",
+      "LED and buzzer alerts",
+      "Built and tested on real hardware",
     ],
-    tech: ["Python", "PyTorch", "scikit-learn", "NumPy"],
-    image: "ml",
+    tech: ["555 Timer", "Ultrasonic Sensor", "Analog Electronics"],
+    image: "distance",
+    link: "https://github.com/shahedtheboss/distance-detector-without-microcontroller",
   },
   {
-    title: "Smart Quality Inspector — Industrial Defect Detection",
-    category: "ai",
-    categoryLabel: "Computer Vision · PyTorch · Industrial AI",
-    status: "Planned",
+    title: "Next Restaurant App",
+    category: "web",
+    categoryLabel: "Web Development · Next.js · Full Stack",
+    status: "Completed",
     summary:
-      "A machine-learning system for identifying defective products and unusual visual patterns in industrial inspection scenarios.",
+      "A complete full-stack restaurant and food-ordering web application, from authentication and ordering through to deployment.",
     details: [
-      "Image preprocessing & CNN-based feature extraction",
-      "Model training and evaluation",
-      "Precision, recall, F1-score & confusion-matrix analysis",
-      "A simple image-upload demo interface",
+      "Next.js and React frontend",
+      "Node.js backend with MongoDB",
+      "User authentication and ordering flow",
+      "Deployed on Vercel",
     ],
-    tech: ["Python", "PyTorch", "CNN", "OpenCV"],
-    image: "vision",
+    tech: ["Next.js", "React", "Node.js", "MongoDB", "Vercel"],
+    image: "restaurant",
+    link: "https://github.com/shahedtheboss/nextrestaurantapp",
   },
   {
     title: "Covid Tracker",
@@ -369,6 +459,56 @@ export const projects: Project[] = [
     tech: ["React", "JavaScript", "CSS"],
     image: "chat",
     link: "https://github.com/shahedtheboss/whatsapp-clone",
+  },
+  {
+    title: "EMP — Mathematics Coaching Website",
+    category: "web",
+    categoryLabel: "Web Development · MERN · Next.js",
+    status: "Completed",
+    summary: "A website for a mathematics coaching private limited company, built with the MERN stack and Next.js.",
+    details: [
+      "React-based frontend",
+      "MERN-stack architecture",
+      "Next.js pages",
+      "Client website for a coaching business",
+    ],
+    tech: ["React", "Next.js", "Node.js", "MongoDB"],
+    image: "emp",
+    link: "https://github.com/shahedtheboss/emp",
+  },
+  {
+    title: "To-Do List App (2021)",
+    category: "web",
+    categoryLabel: "Web Development · HTML · CSS · JavaScript",
+    status: "Completed",
+    summary:
+      "A simple, clean and responsive to-do list built on June 11, 2021 — one of my very first web projects, made without any frameworks.",
+    details: [
+      "Add, complete and delete tasks",
+      "DOM manipulation and event handling",
+      "Responsive on mobile and desktop",
+      "Deployed on Netlify",
+    ],
+    tech: ["HTML", "CSS", "JavaScript", "Netlify"],
+    image: "todo",
+    link: "https://github.com/shahedtheboss/todolist_2021",
+  },
+  {
+    title: "PLC Ladder Logic Projects",
+    category: "automation",
+    categoryLabel: "Industrial Automation · PLC · Ladder Logic",
+    status: "Completed",
+    summary:
+      "Ladder-logic projects from the 80-hour Industrial Automation training at IICT, CUET (EDGE Project, Bangladesh Computer Council).",
+    details: [
+      "PLC programming with ladder logic",
+      "Siemens TIA Portal simulation",
+      "Industrial control exercises",
+      "Part of the Digital Skills 4 Students initiative",
+    ],
+    tech: ["PLC", "Ladder Logic", "Siemens TIA Portal"],
+    image: "plc",
+    link: "https://github.com/shahedtheboss/PLC-Ladder-Logic-Projects",
   },
 ];
 

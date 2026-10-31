@@ -33,6 +33,14 @@ import projectRfidAsset from "@/assets/project-rfid.png.asset.json";
 import projectChat from "@/assets/project-chat.jpg";
 import projectRestaurantAsset from "@/assets/project-restaurant.jpg.asset.json";
 import projectOledAsset from "@/assets/project-oled.png.asset.json";
+import projectFrozenlakeAsset from "@/assets/project-frozenlake.jpg.asset.json";
+import projectMlopsAsset from "@/assets/project-mlops.jpg.asset.json";
+import projectSecomAsset from "@/assets/project-secom.jpg.asset.json";
+import projectDigitsAsset from "@/assets/project-digits.jpg.asset.json";
+import projectDistanceAsset from "@/assets/project-distance.jpg.asset.json";
+import projectEmpAsset from "@/assets/project-emp.jpg.asset.json";
+import projectTodoAsset from "@/assets/project-todo.png.asset.json";
+import projectPlcAsset from "@/assets/project-plc.jpg.asset.json";
 import certMlContest from "@/assets/cert-ml-contest.png.asset.json";
 import certIndustrialAutomation from "@/assets/cert-industrial-automation.png.asset.json";
 import certSciblitz from "@/assets/cert-sciblitz.png.asset.json";
@@ -50,7 +58,7 @@ import {
   identity,
   identityCard,
   journey,
-  projectFilters,
+  projectCategories,
   projects,
   researchInterests,
   skillGroups,
@@ -90,6 +98,14 @@ const projectImages: Record<Project["image"], string> = {
   chat: projectChat,
   restaurant: projectRestaurantAsset.url,
   oled: projectOledAsset.url,
+  frozenlake: projectFrozenlakeAsset.url,
+  mlops: projectMlopsAsset.url,
+  secom: projectSecomAsset.url,
+  digits: projectDigitsAsset.url,
+  distance: projectDistanceAsset.url,
+  emp: projectEmpAsset.url,
+  todo: projectTodoAsset.url,
+  plc: projectPlcAsset.url,
 };
 
 const certificationMedia: Record<
@@ -499,13 +515,131 @@ function Skills() {
   );
 }
 
-function Projects() {
-  const [filter, setFilter] = useState<string>("all");
+function ProjectCategorySection({ category }: { category: (typeof projectCategories)[number] }) {
   const [expanded, setExpanded] = useState(false);
-  const visible = projects.filter((p) => filter === "all" || p.category === filter);
-  const shown = expanded ? visible : visible.slice(0, 5);
-  const remaining = visible.length - shown.length;
+  const items = projects.filter((p) => p.category === category.key);
+  const shown = expanded ? items : items.slice(0, 2);
+  const remaining = items.length - shown.length;
 
+  return (
+    <div id={`projects-${category.key}`} className="scroll-mt-24">
+      <Reveal>
+        <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-border pb-3">
+          <h3 className="font-display text-2xl font-bold tracking-tight text-foreground">{category.label}</h3>
+          <span className="font-mono text-xs tracking-[0.2em] text-primary">
+            {items.length} {items.length === 1 ? "PROJECT" : "PROJECTS"}
+          </span>
+        </div>
+      </Reveal>
+      <div className="grid gap-6 md:grid-cols-2">
+        {shown.map((project) => (
+        <Reveal key={project.title}>
+          <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
+            <div className="relative overflow-hidden">
+              <img
+                src={projectImages[project.image]}
+                alt={`Illustration for ${project.title}`}
+                loading="lazy"
+                width={1200}
+                height={800}
+                className="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              <span
+                className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] tracking-wider backdrop-blur ${
+                  project.status.startsWith("Completed")
+                    ? "border-primary/50 bg-background/80 text-primary"
+                    : project.status === "In Progress"
+                      ? "border-secondary/60 bg-background/80 text-secondary"
+                      : "border-border bg-background/80 text-muted-foreground"
+                }`}
+              >
+                {project.status.toUpperCase()}
+              </span>
+            </div>
+            <div className="flex flex-1 flex-col p-6">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-primary">
+                {project.categoryLabel.toUpperCase()}
+              </p>
+              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors hover:text-primary"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {project.summary}
+              </p>
+              <ul className="mt-4 space-y-1.5">
+                {project.details.map((d) => (
+                  <li key={d} className="flex items-start gap-2 text-xs text-muted-foreground">
+                    <ScanLine size={12} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+                    {d}
+                  </li>
+                ))}
+              </ul>
+              <ul className="mt-4 flex flex-wrap gap-2 pt-2">
+                {project.tech.map((t) => (
+                  <li
+                    key={t}
+                    className="rounded border border-border bg-background px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
+                  >
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
+                >
+                  <Github size={14} />
+                  View source on GitHub
+                </a>
+              )}
+            </div>
+          </article>
+        </Reveal>
+      ))}
+
+      </div>
+      {(remaining > 0 || (expanded && items.length > 2)) && (
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => {
+              if (expanded) {
+                document.getElementById(`projects-${category.key}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+              setExpanded(!expanded);
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-5 py-2.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+          >
+            {expanded ? (
+              <>
+                View less <ArrowUp size={16} />
+              </>
+            ) : (
+              <>
+                View more ({remaining} more {remaining === 1 ? "project" : "projects"}) <ArrowRight size={16} />
+              </>
+            )}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Projects() {
   return (
     <section id="projects" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
@@ -525,140 +659,11 @@ function Projects() {
           </p>
         </Reveal>
 
-        <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
-          {projectFilters.map((f) => (
-            <button
-              key={f.key}
-              onClick={() => {
-                setFilter(f.key);
-                setExpanded(false);
-              }}
-              aria-pressed={filter === f.key}
-              className={`rounded-full border px-4 py-1.5 font-mono text-xs transition-colors ${
-                filter === f.key
-                  ? "border-primary bg-primary/10 text-primary"
-                  : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
-              }`}
-            >
-              {f.label}
-            </button>
+        <div className="space-y-16">
+          {projectCategories.map((c) => (
+            <ProjectCategorySection key={c.key} category={c} />
           ))}
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {shown.map((project) => (
-            <Reveal key={project.title}>
-              <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={projectImages[project.image]}
-                    alt={`Illustration for ${project.title}`}
-                    loading="lazy"
-                    width={1200}
-                    height={800}
-                    className="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                  <span
-                    className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] tracking-wider backdrop-blur ${
-                      project.status === "Completed"
-                        ? "border-primary/50 bg-background/80 text-primary"
-                        : project.status === "In Progress"
-                          ? "border-secondary/60 bg-background/80 text-secondary"
-                          : "border-border bg-background/80 text-muted-foreground"
-                    }`}
-                  >
-                    {project.status.toUpperCase()}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="font-mono text-[10px] tracking-[0.2em] text-primary">
-                    {project.categoryLabel.toUpperCase()}
-                  </p>
-                  <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
-                    {project.link ? (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="transition-colors hover:text-primary"
-                      >
-                        {project.title}
-                      </a>
-                    ) : (
-                      project.title
-                    )}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {project.summary}
-                  </p>
-                  <ul className="mt-4 space-y-1.5">
-                    {project.details.map((d) => (
-                      <li key={d} className="flex items-start gap-2 text-xs text-muted-foreground">
-                        <ScanLine size={12} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
-                        {d}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="mt-4 flex flex-wrap gap-2 pt-2">
-                    {project.tech.map((t) => (
-                      <li
-                        key={t}
-                        className="rounded border border-border bg-background px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
-                    >
-                      <Github size={14} />
-                      View source on GitHub
-                    </a>
-                  )}
-                </div>
-              </article>
-            </Reveal>
-          ))}
-
-          {remaining > 0 && (
-            <Reveal>
-              <div className="flex h-full min-h-64 flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-primary/40 bg-card/40 p-8 text-center">
-                <p className="font-mono text-xs tracking-[0.2em] text-muted-foreground">
-                  {remaining} MORE
-                </p>
-                <button
-                  onClick={() => setExpanded(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-5 py-2.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
-                >
-                  See more projects done by me
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            </Reveal>
-          )}
-        </div>
-
-        {expanded && (
-          <div className="mt-10 flex justify-center">
-            <button
-              onClick={() => {
-                setExpanded(false);
-                document
-                  .getElementById("projects")
-                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-            >
-              See less
-              <ArrowUp size={16} />
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

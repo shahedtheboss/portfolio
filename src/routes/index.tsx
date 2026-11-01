@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  ChevronDown,
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
@@ -222,16 +223,41 @@ function Nav() {
         </a>
 
         <ul className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+          {navItems.map((item) =>
+            item.id === "projects" ? (
+              <li key={item.id} className="group relative">
+                <a
+                  href="#projects"
+                  aria-haspopup="true"
+                  className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-primary group-focus-within:text-primary"
+                >
+                  {item.label}
+                  <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                </a>
+                <ul className="invisible absolute left-0 top-full z-50 w-72 translate-y-1 rounded-lg border border-border bg-card p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  {projectCategories.map((c) => (
+                    <li key={c.key}>
+                      <a
+                        href={`#projects-${c.key}`}
+                        className="block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        {c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )}
         </ul>
 
         <div className="flex items-center gap-2">
@@ -263,6 +289,21 @@ function Nav() {
               >
                 {item.label}
               </a>
+              {item.id === "projects" && (
+                <ul className="mb-1 ml-4 border-l border-border pl-2">
+                  {projectCategories.map((c) => (
+                    <li key={c.key}>
+                      <a
+                        href={`#projects-${c.key}`}
+                        onClick={() => setOpen(false)}
+                        className="block rounded-md px-3 py-2 text-xs text-muted-foreground hover:text-primary"
+                      >
+                        {c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

@@ -307,6 +307,7 @@ export const projects: Project[] = [
     ],
     tech: ["Python", "PyTorch", "scikit-learn", "NumPy"],
     image: "ml",
+    link: "https://github.com/shahedtheboss/breast-cancer-classification",
   },
   {
     title: "Smart Quality Inspector — Industrial Defect Detection",

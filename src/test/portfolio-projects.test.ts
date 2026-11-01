@@ -20,13 +20,13 @@ describe("Projects content", () => {
       "DQN-Based Robot Navigation & Obstacle Avoidance Research",
       "Deep Q-Learning on FrozenLake",
     ]);
-    expect(robotics[0].status).toBe("Completed · Ongoing Research");
+    expect(robotics[0]?.status).toBe("Completed · Ongoing Research");
   });
 
   it("lists the self-healing ML platform as planned under MLOps", () => {
     const mlops = projects.filter((p) => p.category === "mlops");
     expect(mlops).toHaveLength(1);
-    expect(mlops[0].status).toBe("Planned");
+    expect(mlops[0]?.status).toBe("Planned");
   });
 
   it("files bottle inspection under machine learning", () => {

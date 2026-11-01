@@ -1,28 +1,42 @@
 import { describe, expect, it } from "vitest";
 
-import { identity, projects } from "@/data/portfolio";
+import { identity, projectCategories, projects } from "@/data/portfolio";
 
-// The projects grid shows only the first five cards until "see more" is clicked, so the
-// order of this array is the rule for what a visitor sees first and last.
 describe("Projects content", () => {
-  it("has more projects than the five shown by default", () => {
-    expect(projects.length).toBeGreaterThan(5);
+  it("has the six project sections in the requested order", () => {
+    expect(projectCategories.map((c) => c.label)).toEqual([
+      "Robotics and Reinforcement Learning",
+      "MLOps and GenAI",
+      "Machine Learning",
+      "Embedded Systems and Electronics",
+      "Web Development",
+      "Industrial Automation",
+    ]);
   });
 
-  it("opens with bottle inspection, then DQN robot navigation research", () => {
-    expect(projects.slice(0, 2).map((p) => p.title)).toEqual([
-      "AI-Assisted Industrial Bottle Inspection & Rejection",
+  it("puts the DQN research first in robotics, followed by FrozenLake DQN", () => {
+    const robotics = projects.filter((p) => p.category === "robotics");
+    expect(robotics.map((p) => p.title)).toEqual([
       "DQN-Based Robot Navigation & Obstacle Avoidance Research",
+      "Deep Q-Learning on FrozenLake",
     ]);
+    expect(robotics[0].status).toBe("Completed · Ongoing Research");
+  });
+
+  it("lists the self-healing ML platform as planned under MLOps", () => {
+    const mlops = projects.filter((p) => p.category === "mlops");
+    expect(mlops).toHaveLength(1);
+    expect(mlops[0].status).toBe("Planned");
+  });
+
+  it("files bottle inspection under machine learning", () => {
+    const bottle = projects.find((p) => p.title.startsWith("AI-Assisted Industrial Bottle"));
+    expect(bottle?.category).toBe("ml");
   });
 
   it("links the DQN robot navigation research to its own repository", () => {
     const research = projects.find((p) => p.title.endsWith("Obstacle Avoidance Research"));
     expect(research?.link).toBe("https://github.com/shahedtheboss/turtle-bot-research");
-  });
-
-  it("ends with the covid tracker and the whatsapp clone", () => {
-    expect(projects.slice(-2).map((p) => p.title)).toEqual(["Covid Tracker", "WhatsApp Clone"]);
   });
 
   it("never links outside the owner's own GitHub account", () => {
@@ -31,9 +45,5 @@ describe("Projects content", () => {
         expect(project.link.startsWith(`${identity.github}/`)).toBe(true);
       }
     }
-  });
-
-  it("no longer lists the placeholder web-projects entry", () => {
-    expect(projects.some((p) => p.title === "Selected Web Development Projects")).toBe(false);
   });
 });

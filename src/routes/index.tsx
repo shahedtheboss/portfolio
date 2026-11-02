@@ -42,6 +42,11 @@ import projectDistanceAsset from "@/assets/project-distance.jpg.asset.json";
 import projectEmpAsset from "@/assets/project-emp.jpg.asset.json";
 import projectTodoAsset from "@/assets/project-todo.png.asset.json";
 import projectPlcAsset from "@/assets/project-plc.jpg.asset.json";
+import visitPowerStation1 from "@/assets/visit-power-station-1.png.asset.json";
+import visitPowerStation2 from "@/assets/visit-power-station-2.png.asset.json";
+import visitTranscom1 from "@/assets/visit-transcom-1.png.asset.json";
+import visitTranscom2 from "@/assets/visit-transcom-2.png.asset.json";
+import { Button } from "@/components/ui/button";
 import certMlContest from "@/assets/cert-ml-contest.png.asset.json";
 import certIndustrialAutomation from "@/assets/cert-industrial-automation.png.asset.json";
 import certSciblitz from "@/assets/cert-sciblitz.png.asset.json";
@@ -89,7 +94,7 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-const projectImages: Record<Project["image"], string> = {
+const projectImages: Record<Project["image"], string | readonly [string, string]> = {
   robot: projectRobotAsset.url,
   vision: projectVision,
   automation: projectAutomation,
@@ -107,6 +112,8 @@ const projectImages: Record<Project["image"], string> = {
   emp: projectEmpAsset.url,
   todo: projectTodoAsset.url,
   plc: projectPlcAsset.url,
+  powerStationVisit: [visitPowerStation1.url, visitPowerStation2.url],
+  transcomVisit: [visitTranscom1.url, visitTranscom2.url],
 };
 
 const certificationMedia: Record<
@@ -560,8 +567,12 @@ function Skills() {
 function ProjectCategorySection({ category }: { category: (typeof projectCategories)[number] }) {
   const [expanded, setExpanded] = useState(false);
   const items = projects.filter((p) => p.category === category.key);
+  const projectCount = items.filter((p) => p.kind !== "industrialVisit").length;
+  const visitCount = items.length - projectCount;
   const shown = expanded ? items : items.slice(0, 2);
   const remaining = items.length - shown.length;
+  const remainingVisits = items.slice(shown.length).filter((p) => p.kind === "industrialVisit").length;
+  const remainingLabel = remainingVisits === remaining ? (remaining === 1 ? "industrial visit" : "industrial visits") : (remaining === 1 ? "project" : "projects");
 
   return (
     <div id={`projects-${category.key}`} className="scroll-mt-24">
@@ -569,8 +580,13 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
         <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-border pb-3">
           <h3 className="font-display text-2xl font-bold tracking-tight text-foreground">{category.label}</h3>
           <span className="font-mono text-xs tracking-[0.2em] text-primary">
-            {items.length} {items.length === 1 ? "PROJECT" : "PROJECTS"}
+            {projectCount} {projectCount === 1 ? "PROJECT" : "PROJECTS"}
           </span>
+          {visitCount > 0 && (
+            <span className="font-mono text-xs tracking-[0.2em] text-primary">
+              {visitCount} {visitCount === 1 ? "INDUSTRIAL VISIT" : "INDUSTRIAL VISITS"}
+            </span>
+          )}
         </div>
       </Reveal>
       <div className="grid gap-6 md:grid-cols-2">
@@ -578,14 +594,22 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
         <Reveal key={project.title}>
           <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
             <div className="relative overflow-hidden">
-              <img
-                src={projectImages[project.image]}
+              {typeof projectImages[project.image] === "string" ? <img
+                src={projectImages[project.image] as string}
                 alt={`Illustration for ${project.title}`}
                 loading="lazy"
                 width={1200}
                 height={800}
                 className="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-              />
+              /> : (
+                <div className="grid aspect-[3/2] grid-cols-2 gap-1 overflow-hidden bg-background">
+                  {Array.from(projectImages[project.image]).map((src, index) => (
+                    <img key={src} src={src} alt={`${project.title} — photo ${index + 1}`}
+                      loading="lazy" width={600} height={800}
+                      className="h-full min-h-0 w-full object-contain" />
+                  ))}
+                </div>
+              )}
               <span
                 className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] tracking-wider backdrop-blur ${
                   project.status.startsWith("Completed")
@@ -644,8 +668,8 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
                   rel="noreferrer"
                   className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
                 >
-                  <Github size={14} />
-                  View source on GitHub
+                  {project.kind === "industrialVisit" ? <Linkedin size={14} /> : <Github size={14} />}
+                  {project.kind === "industrialVisit" ? "View post on LinkedIn" : "View source on GitHub"}
                 </a>
               )}
             </div>
@@ -656,7 +680,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
       </div>
       {(remaining > 0 || (expanded && items.length > 2)) && (
         <div className="mt-6 flex justify-center">
-          <button
+          <Button variant="outline"
             onClick={() => {
               if (expanded) {
                 document.getElementById(`projects-${category.key}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -671,10 +695,10 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
               </>
             ) : (
               <>
-                View more ({remaining} more {remaining === 1 ? "project" : "projects"}) <ArrowRight size={16} />
+                View more ({remaining} more {remainingLabel}) <ArrowRight size={16} />
               </>
             )}
-          </button>
+          </Button>
         </div>
       )}
     </div>

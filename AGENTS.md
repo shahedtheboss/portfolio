@@ -11,4 +11,7 @@
 
 ## Content rules
 
+- Industrial visits use the project data's explicit `kind` flag; category counts and external-link labels must distinguish visits from source-code projects.
+- Visit collages use ordered pairs of original photo assets in the image map, preserving the supplied photo order without AI alteration.
+
 - Markers that separate completed work from future work (the Learning Journey "AHEAD" badge and its timeline dots) must be driven by an explicit flag on the data item (`ahead` in `src/data/portfolio.ts`), never by a hardcoded array index — adding or reordering entries silently moves the boundary.

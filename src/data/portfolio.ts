@@ -204,6 +204,7 @@ export type ProjectCategory = "robotics" | "mlops" | "ml" | "embedded" | "web" |
 export type Project = {
   title: string;
   category: ProjectCategory;
+  kind?: "industrialVisit";
   categoryLabel: string;
   status: "Completed" | "Completed · Ongoing Research" | "In Progress" | "Planned";
   summary: string;
@@ -211,7 +212,8 @@ export type Project = {
   tech: string[];
   image:
     | "robot" | "vision" | "automation" | "ml" | "web" | "rfid" | "chat" | "restaurant" | "oled"
-    | "frozenlake" | "mlops" | "secom" | "digits" | "distance" | "emp" | "todo" | "plc";
+    | "frozenlake" | "mlops" | "secom" | "digits" | "distance" | "emp" | "todo" | "plc"
+    | "powerStationVisit" | "transcomVisit";
   link?: string;
 };
 
@@ -510,6 +512,30 @@ export const projects: Project[] = [
     tech: ["PLC", "Ladder Logic", "Siemens TIA Portal"],
     image: "plc",
     link: "https://github.com/shahedtheboss/PLC-Ladder-Logic-Projects",
+  },
+  {
+    title: "Chittagong Power Station — Industrial Visit",
+    category: "automation",
+    kind: "industrialVisit",
+    categoryLabel: "Industrial Visit · Power Station",
+    status: "Completed",
+    summary: "An industrial visit to Chittagong Power Station, documented through site photos and a PLC boiler troubleshooting presentation.",
+    details: [],
+    tech: ["Power Generation", "PLC", "Industrial Automation"],
+    image: "powerStationVisit",
+    link: "https://lnkd.in/p/gtieb4-y",
+  },
+  {
+    title: "Transcom Beverages — Industrial Visit",
+    category: "automation",
+    kind: "industrialVisit",
+    categoryLabel: "Industrial Visit · Beverage Manufacturing",
+    status: "Completed",
+    summary: "An industrial visit to Transcom Beverages Ltd., documented through photos of the production equipment and factory premises.",
+    details: [],
+    tech: ["Beverage Manufacturing", "Industrial Automation"],
+    image: "transcomVisit",
+    link: "https://lnkd.in/p/gi-ctSwu",
   },
 ];
 

@@ -41,9 +41,23 @@ describe("Projects content", () => {
 
   it("never links outside the owner's own GitHub account", () => {
     for (const project of projects) {
-      if (project.link) {
+      if (project.link && project.kind !== "industrialVisit") {
         expect(project.link.startsWith(`${identity.github}/`)).toBe(true);
       }
     }
+  });
+
+  it("keeps one automation project and two industrial visits", () => {
+    const automation = projects.filter((p) => p.category === "automation");
+    expect(automation.filter((p) => p.kind !== "industrialVisit")).toHaveLength(1);
+    expect(automation.filter((p) => p.kind === "industrialVisit")).toHaveLength(2);
+  });
+
+  it("pairs each visit with its post and photo collection", () => {
+    const visits = projects.filter((p) => p.kind === "industrialVisit");
+    expect(visits.map((p) => [p.title, p.link, p.image])).toEqual([
+      ["Chittagong Power Station — Industrial Visit", "https://lnkd.in/p/gtieb4-y", "powerStationVisit"],
+      ["Transcom Beverages — Industrial Visit", "https://lnkd.in/p/gi-ctSwu", "transcomVisit"],
+    ]);
   });
 });

@@ -795,9 +795,11 @@ function Journey() {
               <li className="relative">
                 <span
                   className={`absolute -left-[31px] top-1 h-2.5 w-2.5 rounded-full border ${
-                    !item.ahead
-                      ? "border-primary bg-primary"
-                      : "border-muted-foreground bg-background"
+                    item.status === "in-progress"
+                      ? "border-primary bg-primary ring-2 ring-primary/40"
+                      : item.status === "completed"
+                        ? "border-primary bg-primary"
+                        : "border-muted-foreground bg-background"
                   }`}
                   aria-hidden="true"
                 />
@@ -807,7 +809,12 @@ function Journey() {
                     <h3 className="font-display text-base font-semibold text-foreground">
                       {item.title}
                     </h3>
-                    {item.ahead && (
+                    {item.status === "in-progress" && (
+                      <span className="rounded bg-primary px-1.5 py-0.5 font-mono text-[10px] font-semibold text-primary-foreground">
+                        IN PROGRESS
+                      </span>
+                    )}
+                    {item.status === "ahead" && (
                       <span className="font-mono text-[10px] text-muted-foreground">AHEAD</span>
                     )}
                   </div>

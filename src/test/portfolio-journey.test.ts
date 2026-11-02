@@ -19,11 +19,21 @@ describe("Learning Journey timeline", () => {
     ]);
   });
 
-  it("marks only the future steps as ahead", () => {
-    expect(journey.filter((item) => item.ahead).map((item) => item.title)).toEqual([
-      "Building & Implementing RL Projects",
-      "Paper Reproduction",
-      "Advanced RL & Control",
-    ]);
+  it("marks only the future step as ahead", () => {
+    expect(
+      journey.filter((item) => item.status === "ahead").map((item) => item.title),
+    ).toEqual(["Advanced RL & Control"]);
+  });
+
+  it("marks Paper Reproduction and MLOps & Production Engineering as in progress", () => {
+    expect(
+      journey.filter((item) => item.status === "in-progress").map((item) => item.title),
+    ).toEqual(["Paper Reproduction", "MLOps & Production Engineering"]);
+  });
+
+  it("completes Building & Implementing RL Projects", () => {
+    expect(
+      journey.find((item) => item.title === "Building & Implementing RL Projects")?.status,
+    ).toBe("completed");
   });
 });

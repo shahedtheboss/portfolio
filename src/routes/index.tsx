@@ -88,8 +88,12 @@ export const Route = createFileRoute("/")({
           "From building for the web to building intelligent systems — EEE student at CUET exploring AI, robotics, and reinforcement learning.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://shahdath-hussain.lovable.app/" },
+      { property: "og:image", content: `https://shahdath-hussain.lovable.app${portraitAsset.url}` },
+      { name: "twitter:image", content: `https://shahdath-hussain.lovable.app${portraitAsset.url}` },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://shahdath-hussain.lovable.app/" }],
   }),
   component: Portfolio,
 });

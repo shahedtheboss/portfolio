@@ -637,16 +637,17 @@ export const certifications: Certification[] = [
 ];
 
 export const journey = [
-  { step: "01", title: "Start of Programming", body: "Started learning C programming in junior high in 2017.", ahead: false },
-  { step: "02", title: "Web Development", body: "Began teaching myself web development in 2020, and have been building and learning with it ever since.", ahead: false },
-  { step: "03", title: "Python & ML", body: "Picked up Python basics and machine-learning fundamentals in 2024.", ahead: false },
-  { step: "04", title: "EEE Foundations", body: "Electrical & electronic engineering fundamentals at CUET.", ahead: false },
-  { step: "05", title: "PyTorch & Neural Networks", body: "Implementing and training neural networks.", ahead: false },
-  { step: "06", title: "Reinforcement Learning", body: "Q-learning and Deep Q-Networks.", ahead: false },
-  { step: "07", title: "ROS 2 & Navigation", body: "Robot-navigation systems and simulation.", ahead: false },
-  { step: "08", title: "Building & Implementing RL Projects", body: "Building and implementing further reinforcement-learning projects.", ahead: true },
-  { step: "09", title: "Paper Reproduction", body: "Reproducing research and running experiments.", ahead: true },
-  { step: "10", title: "Advanced RL & Control", body: "Future exploration of intelligent control.", ahead: true },
+  { step: "01", title: "Start of Programming", body: "Started learning C programming in junior high in 2017.", status: "completed" },
+  { step: "02", title: "Web Development", body: "Began teaching myself web development in 2020, and have been building and learning with it ever since.", status: "completed" },
+  { step: "03", title: "Python & ML", body: "Picked up Python basics and machine-learning fundamentals in 2024.", status: "completed" },
+  { step: "04", title: "EEE Foundations", body: "Electrical & electronic engineering fundamentals at CUET.", status: "completed" },
+  { step: "05", title: "PyTorch & Neural Networks", body: "Implementing and training neural networks.", status: "completed" },
+  { step: "06", title: "Reinforcement Learning", body: "Q-learning and Deep Q-Networks.", status: "completed" },
+  { step: "07", title: "ROS 2 & Navigation", body: "Robot-navigation systems and simulation.", status: "completed" },
+  { step: "08", title: "Building & Implementing RL Projects", body: "Building and implementing further reinforcement-learning projects.", status: "completed" },
+  { step: "09", title: "Paper Reproduction", body: "Reproducing research and running experiments.", status: "in-progress" },
+  { step: "10", title: "MLOps & Production Engineering", body: "Serving, monitoring and retraining models in production.", status: "in-progress" },
+  { step: "11", title: "Advanced RL & Control", body: "Future exploration of intelligent control.", status: "ahead" },
 ];
 
 export const education = {

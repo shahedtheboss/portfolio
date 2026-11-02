@@ -606,7 +606,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
                   {Array.from(projectImages[project.image]).map((src, index) => (
                     <img key={src} src={src} alt={`${project.title} — photo ${index + 1}`}
                       loading="lazy" width={600} height={800}
-                      className="h-full min-h-0 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                      className="h-full min-h-0 w-full object-contain" />
                   ))}
                 </div>
               )}

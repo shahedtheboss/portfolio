@@ -309,7 +309,7 @@ function Nav() {
           <ThemeToggle />
           <a
             href="#projects"
-            className="hidden rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:inline-flex"
+            className="hidden whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:inline-flex lg:hidden xl:inline-flex"
           >
             Explore Projects
           </a>

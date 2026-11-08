@@ -18,6 +18,8 @@ import {
   Linkedin,
   Mail,
   Menu,
+  Moon,
+  Sun,
   Network,
   ScanLine,
   X,
@@ -198,12 +200,43 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: ReactNode }) {
   return (
-    <div className="mb-12 max-w-2xl">
-      <p className="font-mono text-xs tracking-[0.25em] text-primary">{"// "}{eyebrow}</p>
-      <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+    <div className="mb-12 max-w-3xl">
+      <p className="flex items-center gap-3 font-mono text-[11px] tracking-[0.22em] text-muted-foreground">
+        <span className="h-px w-8 bg-primary" aria-hidden="true" />
+        {eyebrow}
+      </p>
+      <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-[2.6rem]">
         {title}
       </h2>
     </div>
+  );
+}
+
+function ThemeToggle() {
+  const [dark, setDark] = useState(true);
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
+  const toggle = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    try {
+      localStorage.setItem("theme", next ? "dark" : "light");
+    } catch {
+      /* storage unavailable */
+    }
+  };
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Light mode" : "Dark mode"}
+      className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
+    >
+      {dark ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
   );
 }
 
@@ -220,12 +253,12 @@ function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors ${
-        scrolled ? "border-border bg-background/90 backdrop-blur-md" : "border-transparent"
+        scrolled ? "border-border bg-background/90 -md" : "border-transparent"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
         <a href="#home" className="flex min-w-0 items-center gap-2 font-mono text-sm font-semibold text-foreground">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-primary/50 bg-card font-display text-xs text-primary glow-primary">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-foreground/30 font-mono text-[11px] text-foreground">
             {identity.monogram}
           </span>
           <span className="truncate font-display text-[15px] font-bold tracking-tight text-foreground sm:text-sm">
@@ -245,7 +278,7 @@ function Nav() {
                   {item.label}
                   <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
                 </a>
-                <ul className="invisible absolute left-0 top-full z-50 w-72 translate-y-1 rounded-lg border border-border bg-card p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <ul className="invisible absolute left-0 top-full z-50 w-72 translate-y-1 rounded-md border border-border bg-card p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                   {projectCategories.map((c) => (
                     <li key={c.key}>
                       <a
@@ -273,6 +306,7 @@ function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <a
             href="#projects"
             className="hidden rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:inline-flex"
@@ -327,15 +361,11 @@ function Nav() {
 function Hero() {
   return (
     <section id="home" className="relative overflow-hidden pt-16">
-      <div className="absolute inset-0 bg-engineering-grid opacity-40" aria-hidden="true" />
-      <div
-        className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-engineering-grid opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true" />
       <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-28">
         <div className="order-2 lg:order-1">
           <p className="font-mono text-xs tracking-[0.25em] text-primary">{identity.eyebrow}</p>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             {identity.headlineA}{" "}
             <span className="text-gradient">{identity.headlineB}</span>
           </h1>
@@ -352,13 +382,13 @@ function Hero() {
             </a>
             <a
               href="#about"
-              className="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
+              className="rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-foreground/50"
             >
               About Me
             </a>
             <a
               href="#contact"
-              className="rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
+              className="rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-foreground/50"
             >
               Connect With Me
             </a>
@@ -394,14 +424,14 @@ function Hero() {
             </a>
           </div>
 
-          <p className="mt-8 inline-flex max-w-full items-start gap-2 rounded-full border border-border bg-card px-4 py-2 font-mono text-xs leading-relaxed text-muted-foreground">
+          <p className="mt-8 inline-flex max-w-full items-start gap-2 rounded-sm border-l-2 border-primary py-1 pl-3 font-mono text-xs leading-relaxed text-muted-foreground">
             <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary animate-pulse-dot" aria-hidden="true" />
             {identity.status}
           </p>
         </div>
 
         <div className="relative order-1 lg:order-2">
-          <div className="relative overflow-hidden rounded-2xl border border-primary/40 glow-primary">
+          <div className="relative overflow-hidden rounded-sm border border-border">
             <img
               src={portraitAsset.url}
               alt="Md. Shahdath Hussain photographed on a hilltop above a sea of clouds"
@@ -410,7 +440,7 @@ function Hero() {
               className="h-auto max-h-[460px] w-full object-cover object-top sm:max-h-[560px] lg:max-h-[640px]"
             />
           </div>
-          <div className="absolute -bottom-6 -left-4 right-4 rounded-xl border border-border bg-card/95 p-4 backdrop-blur sm:right-auto sm:w-80">
+          <div className="absolute -bottom-6 -left-4 right-4 rounded-sm border border-border bg-card p-4 shadow-sm sm:right-auto sm:w-80">
             <p className="font-mono text-[10px] tracking-[0.2em] text-primary">IDENTITY</p>
             <dl className="mt-2 space-y-1.5">
               {identityCard.map((row) => (
@@ -461,17 +491,16 @@ function About() {
         </Reveal>
 
         <Reveal className="mt-16">
-          <span className="block h-px w-16 bg-primary/60" aria-hidden="true" />
-          <h3 className="mt-4 font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                    <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             My Passion and Goals
           </h3>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {aboutThemes.map((theme) => (
-              <div
-                key={theme.title}
-                className="card-lift h-full rounded-xl border border-border bg-card p-5"
-              >
-                <h4 className="font-display text-sm font-semibold text-primary">{theme.title}</h4>
+          <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {aboutThemes.map((theme, i) => (
+              <div key={theme.title} className="group border-t border-foreground/20 pt-4">
+                <span className="font-mono text-[11px] text-muted-foreground transition-colors group-hover:text-primary">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h4 className="mt-2 font-display text-lg font-semibold text-foreground">{theme.title}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{theme.body}</p>
               </div>
             ))}
@@ -496,34 +525,34 @@ function Research() {
             }
           />
         </Reveal>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="border-t border-border">
           {researchInterests.map((interest, i) => {
             const Icon = researchIcons[i % researchIcons.length] ?? Brain;
             return (
               <Reveal key={interest.key}>
-                <article className="card-lift h-full rounded-xl border border-border bg-card p-6">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/40 bg-background text-primary">
-                      <Icon size={20} />
+                <article className="group grid gap-4 border-b border-border py-8 md:grid-cols-[5rem_1fr_1.4fr] md:gap-8">
+                  <div className="flex items-center gap-3 md:block">
+                    <span className="font-display text-3xl font-medium text-muted-foreground/60 transition-colors group-hover:text-primary">
+                      {interest.key}
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      DIRECTION {interest.key}
-                    </span>
+                    <Icon size={18} className="text-primary md:mt-3" aria-hidden="true" />
                   </div>
-                  <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
+                  <h3 className="font-display text-xl font-semibold leading-snug text-foreground">
                     {interest.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{interest.body}</p>
+                  <div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{interest.body}</p>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {interest.topics.map((topic) => (
                       <li
                         key={topic}
-                        className="rounded-full border border-border bg-background px-3 py-1 font-mono text-[11px] text-muted-foreground"
+                        className="rounded-sm border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted-foreground"
                       >
                         {topic}
                       </li>
                     ))}
                   </ul>
+                  </div>
                 </article>
               </Reveal>
             );
@@ -541,20 +570,20 @@ function Skills() {
         <Reveal>
           <SectionHeading eyebrow="TECHNICAL SKILLS" title="Tools of the trade, honestly labeled" />
         </Reveal>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
             <Reveal key={group.title}>
-              <div className="card-lift h-full rounded-xl border border-border bg-card p-6">
+              <div className="h-full border-t border-foreground/20 pt-5">
                 <p className="font-mono text-[10px] tracking-[0.2em] text-primary">
                   {group.level.toUpperCase()}
                 </p>
-                <h3 className="mt-2 font-display text-base font-semibold text-foreground">
+                <h3 className="mt-2 font-display text-lg font-semibold text-foreground">
                   {group.title}
                 </h3>
                 <ul className="mt-4 space-y-2">
                   {group.skills.map((skill) => (
                     <li key={skill} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+                      <span className="mt-2 h-px w-2 shrink-0 bg-primary" aria-hidden="true" />
                       {skill}
                     </li>
                   ))}
@@ -581,8 +610,8 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
   return (
     <div id={`projects-${category.key}`} className="scroll-mt-24">
       <Reveal>
-        <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-border pb-3">
-          <h3 className="font-display text-2xl font-bold tracking-tight text-foreground">{category.label}</h3>
+        <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-foreground/20 pb-3">
+          <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{category.label}</h3>
           <span className="font-mono text-xs tracking-[0.2em] text-primary">
             {projectCount} {projectCount === 1 ? "PROJECT" : "PROJECTS"}
           </span>
@@ -596,7 +625,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
       <div className="grid gap-6 md:grid-cols-2">
         {shown.map((project) => (
         <Reveal key={project.title}>
-          <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
+          <article className="card-lift group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card">
             <div className="relative overflow-hidden">
               {typeof projectImages[project.image] === "string" ? <img
                 src={projectImages[project.image] as string}
@@ -615,7 +644,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
                 </div>
               )}
               <span
-                className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] tracking-wider backdrop-blur ${
+                className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] tracking-wider  ${
                   project.status.startsWith("Completed")
                     ? "border-primary/50 bg-background/80 text-primary"
                     : project.status === "In Progress"
@@ -670,7 +699,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
                   href={project.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
+                  className="mt-auto inline-flex items-center gap-2 pt-5 link-draw font-mono text-xs text-primary"
                 >
                   {project.kind === "industrialVisit" ? <Linkedin size={14} /> : <Github size={14} />}
                   {project.kind === "industrialVisit" ? "View post on LinkedIn" : "View source on GitHub"}
@@ -691,7 +720,7 @@ function ProjectCategorySection({ category }: { category: (typeof projectCategor
               }
               setExpanded(!expanded);
             }}
-            className="inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-5 py-2.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-5 py-2.5 font-mono text-xs text-foreground transition-colors hover:border-foreground/50 hover:bg-transparent"
           >
             {expanded ? (
               <>
@@ -721,7 +750,7 @@ function Projects() {
               href={identity.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-1.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-foreground/50"
             >
               <Github size={14} />
               Visit my GitHub
@@ -746,10 +775,10 @@ function Experience() {
         <Reveal>
           <SectionHeading eyebrow="EXPERIENCE" title="Experience & engineering exposure" />
         </Reveal>
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-x-10 md:grid-cols-2">
           {experience.map((item) => (
             <Reveal key={item.title}>
-              <article className="card-lift h-full rounded-xl border border-border bg-card p-6">
+              <article className="h-full border-t border-border py-6">
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-mono text-[10px] tracking-[0.2em] text-primary">
                     {item.kind.toUpperCase()}
@@ -764,8 +793,8 @@ function Experience() {
         </div>
 
         <Reveal className="mt-10">
-          <div className="rounded-xl border border-border bg-card p-6 sm:flex sm:items-center sm:gap-6">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-primary/40 bg-background text-primary">
+          <div className="border-y border-border py-6 sm:flex sm:items-center sm:gap-6">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border text-primary">
               <GraduationCap size={22} />
             </span>
             <div className="mt-4 sm:mt-0">
@@ -807,7 +836,7 @@ function Journey() {
                   }`}
                   aria-hidden="true"
                 />
-                <div className="card-lift rounded-xl border border-border bg-card p-5">
+                <div className="pb-2">
                   <div className="flex items-baseline gap-3">
                     <span className="font-mono text-xs text-primary">{item.step}</span>
                     <h3 className="font-display text-base font-semibold text-foreground">
@@ -830,14 +859,14 @@ function Journey() {
         </ol>
 
         <Reveal className="mt-10">
-          <div className="rounded-xl border border-primary/40 bg-card p-6 glow-primary">
+          <div className="border-l-2 border-primary pl-6">
             <p className="font-mono text-[10px] tracking-[0.2em] text-primary">CURRENTLY EXPLORING</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {["Reinforcement Learning", "Autonomous Robotics", "AI-Assisted Engineering"].map(
                 (t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-border bg-background px-3 py-1 font-mono text-xs text-foreground"
+                    className="rounded-sm border border-border px-2.5 py-0.5 font-mono text-xs text-foreground"
                   >
                     {t}
                   </span>
@@ -870,7 +899,7 @@ function Certifications() {
             const media = certificationMedia[item.key];
             return (
               <Reveal key={item.key}>
-                <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
+                <article className="card-lift group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card">
                   <div className="relative aspect-[4/3] overflow-hidden border-b border-border bg-background">
                     <img
                       src={media.thumb}
@@ -878,9 +907,9 @@ function Certifications() {
                       width={media.width}
                       height={media.height}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     />
-                    <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-background/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-primary backdrop-blur">
+                    <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-background/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-primary ">
                       <BadgeCheck size={12} aria-hidden="true" />
                       {item.award}
                     </span>
@@ -900,7 +929,7 @@ function Certifications() {
                       href={media.full}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-auto inline-flex items-center gap-2 pt-5 font-mono text-xs text-primary transition-colors hover:underline"
+                      className="mt-auto inline-flex items-center gap-2 pt-5 link-draw font-mono text-xs text-primary"
                     >
                       {media.isPdf ? <FileText size={14} /> : <Award size={14} />}
                       View certificate
@@ -984,9 +1013,9 @@ function Contact() {
                 key={label}
                 href={href}
                 {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="card-lift group flex items-center gap-4 rounded-xl border border-border bg-card p-4 text-left"
+                className="card-lift group flex items-center gap-4 rounded-md border border-border bg-card p-4 text-left"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-primary/30 bg-background text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                   <Icon size={18} />
                 </span>
                 <span className="min-w-0">
@@ -1015,7 +1044,7 @@ function Footer() {
     <footer className="relative z-10 border-t border-border">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-10 sm:px-6">
         <div className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md border border-primary/50 bg-card font-display text-xs text-primary">
+          <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-foreground/30 font-mono text-[11px] text-foreground">
             {identity.monogram}
           </span>
           <span className="font-display text-sm font-semibold text-foreground">{identity.name}</span>

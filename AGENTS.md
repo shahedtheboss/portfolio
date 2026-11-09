@@ -11,6 +11,8 @@
 
 ## Content rules
 
+- Keep the cursor spotlight in the portfolio's isolated stacking context above section surfaces, with pointer events disabled and theme-specific blend tokens; it stays visible without blocking controls.
+
 - Industrial visits use the project data's explicit `kind` flag; category counts and external-link labels must distinguish visits from source-code projects.
 - Visit collages use ordered pairs of original photo assets in the image map, preserving the supplied photo order without AI alteration.
 

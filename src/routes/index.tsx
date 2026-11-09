@@ -1122,7 +1122,7 @@ function useSmoothScroll() {
 /* Sea-green brightness spotlight that follows the cursor */
 function CursorGlow() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
     const root = document.documentElement;
     let frame = 0;
     let x = -1;
@@ -1132,16 +1132,36 @@ function CursorGlow() {
       if (x < 0) return;
       root.style.setProperty("--cursor-x", `${x}px`);
       root.style.setProperty("--cursor-y", `${y}px`);
+      root.style.setProperty("--cursor-visible", "1");
     };
     const onMove = (e: MouseEvent) => {
       x = e.clientX;
       y = e.clientY;
+      const interactive = e.target instanceof Element && e.target.closest("a, button, input, summary, [role='button']");
+      root.style.setProperty("--cursor-emphasis", interactive ? "0.8" : "1");
       if (!frame) frame = requestAnimationFrame(apply);
     };
+    const hide = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      root.style.setProperty("--cursor-visible", "0");
+    };
+    const press = () => root.style.setProperty("--cursor-emphasis", "1.2");
+    const release = () => root.style.setProperty("--cursor-emphasis", "1");
     window.addEventListener("mousemove", onMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", hide);
+    window.addEventListener("blur", hide);
+    window.addEventListener("mousedown", press);
+    window.addEventListener("mouseup", release);
     return () => {
       window.removeEventListener("mousemove", onMove);
+      document.documentElement.removeEventListener("mouseleave", hide);
+      window.removeEventListener("blur", hide);
+      window.removeEventListener("mousedown", press);
+      window.removeEventListener("mouseup", release);
       if (frame) cancelAnimationFrame(frame);
+      root.style.removeProperty("--cursor-visible");
+      root.style.removeProperty("--cursor-emphasis");
     };
   }, []);
   return <div aria-hidden="true" className="cursor-glow" />;
@@ -1150,7 +1170,7 @@ function CursorGlow() {
 function Portfolio() {
   useSmoothScroll();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="isolate min-h-screen bg-background text-foreground">
       <CursorGlow />
       <Nav />
       <main className="relative z-10">

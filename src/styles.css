@@ -62,6 +62,9 @@
   --input: oklch(0.87 0.01 95);
   --ring: oklch(0.52 0.1 168);
   --glow: oklch(0.52 0.1 168 / 0);
+  --cursor-core: oklch(0.66 0.2 168 / 0.5);
+  --cursor-halo: oklch(0.7 0.16 168 / 0.2);
+  --cursor-blend: multiply;
 }
 
 .dark {
@@ -87,6 +90,9 @@
   --input: oklch(0.27 0.025 255);
   --ring: oklch(0.76 0.12 168);
   --glow: oklch(0.76 0.12 168 / 0.3);
+  --cursor-core: oklch(0.8 0.19 168 / 0.48);
+  --cursor-halo: oklch(0.74 0.17 168 / 0.16);
+  --cursor-blend: screen;
 }
 
 @layer base {
@@ -204,34 +210,29 @@
   font-weight: 500;
 }
 
-/* Cursor-following brightness spotlight: tight bright core + soft halo */
+/* Non-intercepting spotlight above section surfaces in either theme. */
 .cursor-glow {
-  display: none;
   position: fixed;
-  inset: 0;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  z-index: 40;
   pointer-events: none;
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(
-      260px circle at var(--cursor-x, 50%) var(--cursor-y, 35%),
-      oklch(0.76 0.12 168 / 0.09),
-      oklch(0.76 0.12 168 / 0.03) 45%,
-      transparent 72%
-    ),
-    radial-gradient(
-      640px circle at var(--cursor-x, 50%) var(--cursor-y, 35%),
-      oklch(0.72 0.09 195 / 0.04),
-      transparent 70%
-    );
+  mix-blend-mode: var(--cursor-blend);
+  background: radial-gradient(circle,
+    var(--cursor-core) 0%,
+    var(--cursor-halo) 28%,
+    transparent 68%);
+  opacity: var(--cursor-visible, 0);
+  transform: translate3d(calc(var(--cursor-x, -300px) - 50%), calc(var(--cursor-y, -300px) - 50%), 0) scale(var(--cursor-scale, 1));
+  transition: opacity 180ms ease, scale 180ms ease;
+  scale: var(--cursor-emphasis, 1);
+  will-change: transform;
 }
 
-.dark .cursor-glow {
-  display: block;
-}
-
-@media (pointer: coarse) {
-  .dark .cursor-glow {
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-glow {
     display: none;
   }
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { lockScroll, unlockScroll } from "@/hooks/useLenis";
-import { cn } from "@/lib/utils";
 
 const LINES = [
   "mounting perception stack",
@@ -12,80 +11,106 @@ const LINES = [
   "handshake complete",
 ];
 
-const STEP = 200;
+/** Whole sequence length in ms (lines, bar, wipe). Keep in sync with `.boot-*` CSS. */
+const TOTAL = 1750;
 
-/** Decorative boot overlay. Client-only: SSR content is never blocked. */
+/**
+ * Runs before first paint (inline, right after the overlay markup). Hides the overlay for
+ * repeat visits and reduced-motion users and flags `data-boot` for the hero entrance.
+ */
+const PRE_PAINT = `(function(){try{var d=document.documentElement,r=matchMedia("(prefers-reduced-motion: reduce)").matches,b=false;try{b=sessionStorage.getItem("booted")==="1"}catch(e){}if(r||b){var o=document.getElementById("boot-overlay");if(o)o.style.display="none";d.dataset.booted="1";d.dataset.boot="done"}else{d.dataset.boot="pending"}}catch(e){}})()`;
+
+function markDone() {
+  const root = document.documentElement;
+  root.setAttribute("data-booted", "1");
+  root.setAttribute("data-boot", "done");
+  window.dispatchEvent(new Event("boot:done"));
+}
+
+/** True once the boot sequence has finished or was skipped. False on SSR / first render. */
+export function useBootDone() {
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    if (document.documentElement.getAttribute("data-booted") === "1") {
+      setDone(true);
+      return;
+    }
+    const on = () => setDone(true);
+    window.addEventListener("boot:done", on);
+    return () => window.removeEventListener("boot:done", on);
+  }, []);
+  return done;
+}
+
+/**
+ * Boot overlay rendered in the SSR HTML so it covers the page from first paint. The visuals
+ * are pure CSS (see `.boot-*` in styles.css), so the overlay also clears itself without JS.
+ */
 export function BootLoader() {
-  const [phase, setPhase] = useState<"idle" | "run" | "wipe" | "done">("idle");
-  const [count, setCount] = useState(0);
+  const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let booted = false;
+    const root = document.documentElement;
+    if (root.getAttribute("data-booted") === "1") {
+      setGone(true);
+      return;
+    }
+    let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     try {
-      booted = sessionStorage.getItem("booted") === "1";
+      skip = skip || sessionStorage.getItem("booted") === "1";
     } catch {
       /* storage unavailable */
     }
-    if (reduced || booted) {
-      setPhase("done");
+    if (skip) {
+      markDone();
+      setGone(true);
       return;
     }
-    setPhase("run");
     lockScroll();
-    const timers: number[] = [];
-    LINES.forEach((_, i) => timers.push(window.setTimeout(() => setCount(i + 1), (i + 1) * STEP)));
-    timers.push(window.setTimeout(() => setPhase("wipe"), LINES.length * STEP + 120));
-    timers.push(
-      window.setTimeout(
-        () => {
-          setPhase("done");
-          try {
-            sessionStorage.setItem("booted", "1");
-          } catch {
-            /* storage unavailable */
-          }
-        },
-        LINES.length * STEP + 120 + 520,
-      ),
-    );
+    const t = window.setTimeout(() => {
+      try {
+        sessionStorage.setItem("booted", "1");
+      } catch {
+        /* storage unavailable */
+      }
+      unlockScroll();
+      markDone();
+      setGone(true);
+    }, TOTAL);
     return () => {
-      timers.forEach(clearTimeout);
+      window.clearTimeout(t);
       unlockScroll();
     };
   }, []);
 
-  if (phase === "idle" || phase === "done") return null;
-  const pct = Math.round((count / LINES.length) * 100);
+  if (gone) return null;
 
   return (
-    <div
-      aria-hidden="true"
-      className={cn(
-        "fixed inset-0 z-[80] flex items-end bg-background transition-[clip-path] duration-500 ease-[var(--ease-in-out-quart)]",
-        phase === "wipe" ? "[clip-path:inset(0_0_100%_0)]" : "[clip-path:inset(0_0_0_0)]",
-      )}
-    >
-      <div className="blueprint-grid absolute inset-0 opacity-60" />
-      <div className="container-x relative pb-[10vh]">
-        <ul className="telemetry space-y-2 text-muted-foreground">
-          {LINES.slice(0, count).map((l) => (
-            <li key={l} className="flex gap-3">
-              <span className="text-primary">[ OK ]</span>
-              {l}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 flex items-center gap-4">
-          <div className="h-px flex-1 bg-border">
-            <div
-              className="h-px bg-primary transition-[width] duration-200 ease-linear"
-              style={{ width: `${pct}%` }}
-            />
+    <>
+      <div id="boot-overlay" aria-hidden="true" className="boot-overlay" suppressHydrationWarning>
+        <div className="blueprint-grid absolute inset-0 opacity-60" />
+        <div className="container-x relative pb-[10vh]">
+          <ul className="telemetry space-y-2 text-muted-foreground">
+            {LINES.map((l, i) => (
+              <li
+                key={l}
+                className="boot-line flex gap-3"
+                style={{ animationDelay: `${(i + 1) * 200}ms` }}
+              >
+                <span className="text-primary">[ OK ]</span>
+                {l}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex items-center gap-4">
+            <div className="h-px flex-1 bg-border">
+              <div className="boot-bar h-px bg-primary" />
+            </div>
+            <span className="boot-pct telemetry w-10 text-right text-primary" />
           </div>
-          <span className="telemetry w-10 text-right text-primary">{pct}%</span>
         </div>
       </div>
-    </div>
+      <script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} />
+    </>
   );
 }

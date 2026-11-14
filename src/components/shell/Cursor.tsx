@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 import { useRichPointer } from "@/hooks/useFinePointer";
-import { spring } from "@/lib/motion";
 
 type Variant = "default" | "link" | "card" | "drag" | "image";
 
@@ -20,13 +19,20 @@ export function Cursor() {
   const [variant, setVariant] = useState<Variant>("default");
   const [shown, setShown] = useState(false);
   const [pressed, setPressed] = useState(false);
+  const shownRef = useRef(false);
+  const variantRef = useRef<Variant>("default");
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const rx = useSpring(x, spring);
-  const ry = useSpring(y, spring);
-  const sx = useSpring(x, { stiffness: 90, damping: 22, mass: 1 });
-  const sy = useSpring(y, { stiffness: 90, damping: 22, mass: 1 });
+  // Outer ring trails the pointer very slightly, as a small offset from the wrapper.
+  const ringSpring = { stiffness: 1400, damping: 60, mass: 0.4 };
+  const tx = useSpring(x, ringSpring);
+  const ty = useSpring(y, ringSpring);
+  const ringX = useTransform(() => tx.get() - x.get());
+  const ringY = useTransform(() => ty.get() - y.get());
+  const spotSpring = { stiffness: 420, damping: 38, mass: 0.6 };
+  const sx = useSpring(x, spotSpring);
+  const sy = useSpring(y, spotSpring);
 
   useEffect(() => {
     if (!active) return;
@@ -35,13 +41,23 @@ export function Cursor() {
     const onMove = (e: PointerEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      setShown(true);
+      if (!shownRef.current) {
+        shownRef.current = true;
+        setShown(true);
+      }
       const t = e.target instanceof Element ? e.target.closest(TARGETS) : null;
-      if (!t) return setVariant("default");
-      const d = t.getAttribute("data-cursor") as Variant | null;
-      setVariant(d ?? "link");
+      const next: Variant = t
+        ? ((t.getAttribute("data-cursor") as Variant | null) ?? "link")
+        : "default";
+      if (next !== variantRef.current) {
+        variantRef.current = next;
+        setVariant(next);
+      }
     };
-    const hide = () => setShown(false);
+    const hide = () => {
+      shownRef.current = false;
+      setShown(false);
+    };
     const down = () => setPressed(true);
     const up = () => setPressed(false);
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -66,15 +82,18 @@ export function Cursor() {
   return (
     <div aria-hidden="true" className="cursor-layer" style={{ opacity: shown ? 1 : 0 }}>
       <motion.div className="cursor-spotlight" style={{ x: sx, y: sy }} />
-      <motion.div className="absolute left-0 top-0" style={{ x: rx, y: ry }}>
+      <motion.div className="absolute left-0 top-0" style={{ x, y }}>
         <div
-          className="relative -ml-4 -mt-4 h-8 w-8 transition-transform duration-300 ease-[var(--ease-out-expo)]"
+          className="relative -ml-4 -mt-4 h-8 w-8 transition-transform duration-[160ms] ease-[var(--ease-out-expo)]"
           style={{ transform: `scale(${pressed ? 0.8 : expanded ? 1.9 : 1})` }}
         >
-          <span className="absolute inset-0 rounded-full border border-primary" />
+          <motion.span
+            className="absolute inset-0 rounded-full border border-primary"
+            style={{ x: ringX, y: ringY }}
+          />
           <span className="absolute left-1/2 top-1/2 -ml-[2px] -mt-[2px] h-1 w-1 rounded-full bg-primary" />
           <span
-            className="absolute inset-0 transition-transform duration-500 ease-[var(--ease-out-expo)]"
+            className="absolute inset-0 transition-transform duration-[220ms] ease-[var(--ease-out-expo)]"
             style={{ transform: `rotate(${expanded ? 45 : 0}deg)` }}
           >
             <span className="absolute left-1/2 -top-1 h-2 w-px bg-primary" />

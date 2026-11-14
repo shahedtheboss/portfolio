@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -22,18 +22,20 @@ export function MaskLines({ text, className, step = 14 }: MaskLinesProps) {
           transitionDelay: `${Math.min(i * step, 700)}ms`,
         };
         return (
-          <span key={i} className="inline-block overflow-hidden align-bottom">
-            <span
-              className={cn(
-                "inline-block transition-transform duration-[640ms] ease-[var(--ease-out-expo)]",
-                hidden && "translate-y-full",
-              )}
-              style={style}
-            >
-              {w}
+          <Fragment key={i}>
+            <span className="-my-[0.14em] inline-block overflow-hidden py-[0.14em] align-bottom">
+              <span
+                className={cn(
+                  "inline-block transition-transform duration-[640ms] ease-[var(--ease-out-expo)]",
+                  hidden && "translate-y-[115%]",
+                )}
+                style={style}
+              >
+                {w}
+              </span>
             </span>
             {i < words.length - 1 ? " " : null}
-          </span>
+          </Fragment>
         );
       })}
     </p>

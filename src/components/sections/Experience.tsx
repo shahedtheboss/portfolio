@@ -1,10 +1,25 @@
-import { GraduationCap } from "lucide-react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef } from "react";
 
-import { education, experience } from "@/data/portfolio";
-import { Panel } from "@/components/motion/Panel";
 import { SectionHeader } from "@/components/motion/SectionHeader";
+import { experience } from "@/data/portfolio";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { spring } from "@/lib/motion";
+
+import { EducationDock } from "./experience/EducationDock";
+import { LogEntry } from "./experience/LogEntry";
 
 export function Experience() {
+  const listRef = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 70%", "end 60%"],
+  });
+  const smooth = useSpring(scrollYProgress, spring);
+  const fill = useTransform(smooth, (v) => (reduced ? 1 : Math.min(1, Math.max(0, v))));
+  const headTop = useTransform(fill, (v) => `${v * 100}%`);
+
   return (
     <section
       id="experience"
@@ -18,44 +33,34 @@ export function Experience() {
           eyebrow="EXPERIENCE"
           title="Experience & engineering exposure"
         />
-        <ol className="relative ml-2 border-l border-n-2 md:ml-[7.5rem]">
-          {experience.map((item) => (
-            <li key={item.title} className="relative pb-12 pl-8 last:pb-0 md:pl-12">
-              <span
-                aria-hidden="true"
-                className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 border border-primary bg-background"
+        <div ref={listRef} className="relative ml-2 md:ml-[7.5rem]">
+          <span aria-hidden="true" className="absolute inset-y-0 left-0 w-px bg-n-1" />
+          <motion.span
+            aria-hidden="true"
+            style={{ scaleY: fill }}
+            className="absolute inset-y-0 left-0 w-px origin-top bg-primary shadow-[0_0_10px_var(--primary)]"
+          />
+          {!reduced && (
+            <motion.span
+              aria-hidden="true"
+              style={{ top: headTop }}
+              className="absolute -left-[6px] z-10 h-3 w-3 -translate-y-1/2 rotate-45 border border-primary bg-background shadow-[0_0_14px_var(--primary)]"
+            />
+          )}
+          <ol>
+            {experience.map((item, i) => (
+              <LogEntry
+                key={item.title}
+                index={i}
+                kind={item.kind}
+                period={item.period}
+                title={item.title}
+                body={item.body}
               />
-              <p className="telemetry flex flex-wrap items-center gap-x-4 gap-y-1 text-primary md:absolute md:-left-[8.5rem] md:top-1 md:w-28 md:flex-col md:items-end md:gap-1 md:text-right">
-                <span>{item.kind.toUpperCase()}</span>
-                <span className="text-muted-foreground">{item.period}</span>
-              </p>
-              <h3 className="font-display text-[length:var(--text-step-1)] font-semibold text-foreground">
-                {item.title}
-              </h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {item.body}
-              </p>
-            </li>
-          ))}
-        </ol>
-
-        <Panel
-          className="mt-16"
-          label="EDUCATION"
-          bodyClassName="p-6 sm:flex sm:items-center sm:gap-6"
-        >
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center border border-primary text-primary">
-            <GraduationCap size={26} />
-          </span>
-          <div className="mt-4 sm:mt-0">
-            <h3 className="font-display text-lg font-semibold text-foreground">
-              {education.institution}
-            </h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {education.program} · {education.status} · {education.graduation}
-            </p>
-          </div>
-        </Panel>
+            ))}
+          </ol>
+        </div>
+        <EducationDock />
       </div>
     </section>
   );

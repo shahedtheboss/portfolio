@@ -1,12 +1,51 @@
-import { Award, BadgeCheck, FileText } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence } from "motion/react";
 
-import { certifications } from "@/data/portfolio";
-import { certificationMedia } from "@/lib/media";
-import { DrawLink } from "@/components/motion/DrawLink";
-import { Panel } from "@/components/motion/Panel";
 import { SectionHeader } from "@/components/motion/SectionHeader";
+import { certifications } from "@/data/portfolio";
+import { useRichPointer } from "@/hooks/useFinePointer";
+import { useIsClient } from "@/hooks/useIsClient";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+import { CertDeck } from "./certifications/CertDeck";
+import { CertGrid } from "./certifications/CertGrid";
+import { CertViewer } from "./certifications/CertViewer";
+import { useMinWidth } from "./certifications/useMinWidth";
 
 export function Certifications() {
+  const client = useIsClient();
+  const reduced = usePrefersReducedMotion();
+  const rich = useRichPointer();
+  const large = useMinWidth(1024);
+  const deck = rich && large;
+  const [selected, setSelected] = useState<number | null>(null);
+  const cards = useRef<(HTMLButtonElement | null)[]>([]);
+  const n = certifications.length;
+  const current = selected === null ? undefined : certifications[selected];
+
+  const registerCard = useCallback((i: number, el: HTMLButtonElement | null) => {
+    cards.current[i] = el;
+  }, []);
+
+  const close = useCallback(() => {
+    setSelected((cur) => {
+      if (cur !== null) requestAnimationFrame(() => cards.current[cur]?.focus());
+      return null;
+    });
+  }, []);
+
+  const step = useCallback(
+    (d: number) => {
+      setSelected((cur) => (cur === null ? cur : (cur + d + n) % n));
+    },
+    [n],
+  );
+
+  useEffect(() => {
+    if (!deck) setSelected(null);
+  }, [deck]);
+
   return (
     <section
       id="certifications"
@@ -24,55 +63,33 @@ export function Certifications() {
             </>
           }
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {certifications.map((item) => {
-            const media = certificationMedia[item.key];
-            return (
-              <Panel
-                key={item.key}
-                as="article"
-                className="group h-full"
-                bodyClassName="flex h-full flex-col"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden border-b border-border bg-background">
-                  <img
-                    src={media.thumb}
-                    alt={`${item.award} — ${item.title}`}
-                    width={media.width}
-                    height={media.height}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
-                  />
-                  <span className="telemetry absolute left-3 top-3 inline-flex items-center gap-1.5 border border-primary/60 bg-background/90 px-2.5 py-1 text-primary">
-                    <BadgeCheck size={12} aria-hidden="true" />
-                    {item.award}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-base font-semibold leading-snug text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-primary">{item.issuer}</p>
-                  {item.period && (
-                    <p className="mt-1.5 font-mono text-[11px] text-muted-foreground">
-                      {item.period}
-                    </p>
-                  )}
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
-                  <DrawLink
-                    href={media.full}
-                    external
-                    className="mt-auto inline-flex items-center gap-2 self-start pt-5 font-mono text-xs text-primary"
-                  >
-                    {media.isPdf ? <FileText size={14} /> : <Award size={14} />}
-                    View certificate
-                  </DrawLink>
-                </div>
-              </Panel>
-            );
-          })}
-        </div>
+        {deck && (
+          <CertDeck
+            items={certifications}
+            selected={selected}
+            onSelect={setSelected}
+            registerCard={registerCard}
+          />
+        )}
+        <CertGrid compact={deck} />
       </div>
+      {client &&
+        createPortal(
+          <AnimatePresence>
+            {deck && current && selected !== null && (
+              <CertViewer
+                key="viewer"
+                item={current}
+                index={selected}
+                total={n}
+                reduced={reduced}
+                onClose={close}
+                onStep={step}
+              />
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
     </section>
   );
 }

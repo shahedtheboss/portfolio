@@ -1,30 +1,35 @@
+import { useRef, useState } from "react";
+import { useScroll, useSpring } from "motion/react";
+
 import { journey } from "@/data/portfolio";
-import { Chip } from "@/components/motion/Chip";
-import { Panel } from "@/components/motion/Panel";
 import { SectionHeader } from "@/components/motion/SectionHeader";
-import { StatusLight } from "@/components/motion/StatusLight";
-import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const exploring = ["Reinforcement Learning", "Autonomous Robotics", "AI-Assisted Engineering"];
+import { ExploringPanel } from "./journey/ExploringPanel";
+import { JourneyItem } from "./journey/JourneyItem";
+import { MapDecor } from "./journey/MapDecor";
+import { RoutePath, type RouteStatus } from "./journey/RoutePath";
+import { useMinWidth, useWaypoints } from "./journey/useWaypoints";
 
-type Status = (typeof journey)[number]["status"];
-
-function Marker({ status }: { status: Status }) {
-  if (status === "in-progress") {
-    return <StatusLight tone="warn" className="h-3 w-3 [&>span]:h-3 [&>span]:w-3" />;
-  }
-  return (
-    <span
-      aria-hidden="true"
-      className={cn(
-        "block h-3 w-3 rounded-full border",
-        status === "completed" ? "border-primary bg-primary" : "border-n-3 bg-background",
-      )}
-    />
-  );
-}
+/** The terminal segment leads to the "next targets" panel, which is by definition ahead. */
+const toStatus = (s: string): RouteStatus =>
+  s === "in-progress" || s === "ahead" ? s : "completed";
+const statuses: RouteStatus[] = [...journey.slice(1).map((j) => toStatus(j.status)), "ahead"];
 
 export function Journey() {
+  const reduced = usePrefersReducedMotion();
+  const wide = useMinWidth(768);
+  const box = useRef<HTMLDivElement>(null);
+  const nodes = useRef<(HTMLElement | null)[]>([]);
+  const end = useRef<HTMLSpanElement>(null);
+  const geom = useWaypoints(box, nodes, end, journey.length);
+  const [reached, setReached] = useState(0);
+
+  const { scrollYProgress } = useScroll({ target: box, offset: ["start 65%", "end 55%"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 });
+
+  const armed = geom !== null && !reduced;
+
   return (
     <section
       id="journey"
@@ -38,66 +43,47 @@ export function Journey() {
           eyebrow="LEARNING JOURNEY"
           title="From Engineering Fundamentals to Intelligent Systems"
         />
-        <ol className="relative">
-          {journey.map((item, i) => (
-            <li
-              key={item.step}
-              className="relative grid grid-cols-[1.5rem_1fr] gap-x-4 md:grid-cols-[1fr_2rem_1fr] md:gap-x-8"
-            >
-              {/* spine segment: dashed when the step is ahead */}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute bottom-0 left-[11px] top-0 border-l md:left-1/2",
-                  item.status === "ahead" ? "border-dashed border-n-3" : "border-n-2",
-                )}
+        <div ref={box} className="relative">
+          <MapDecor />
+          {/* SSR / pre-measure fallback: a plain line */}
+          {!geom && (
+            <span
+              aria-hidden="true"
+              className="absolute inset-y-0 left-[11px] border-l border-n-2 md:left-1/2"
+            />
+          )}
+          {geom && (
+            <RoutePath
+              geom={geom}
+              statuses={statuses}
+              progress={progress}
+              still={reduced}
+              onReach={setReached}
+            />
+          )}
+          <ol className="relative z-10">
+            {journey.map((item, i) => (
+              <JourneyItem
+                key={item.step}
+                step={item.step}
+                title={item.title}
+                body={item.body}
+                status={toStatus(item.status)}
+                left={i % 2 === 0}
+                armed={armed}
+                revealed={i < reached}
+                wide={wide}
+                nodeRef={(el) => {
+                  nodes.current[i] = el;
+                }}
               />
-              <span className="relative z-10 flex h-6 items-center justify-center pt-1 md:col-start-2 md:row-start-1">
-                <Marker status={item.status} />
-              </span>
-              <div
-                className={cn(
-                  "pb-10 md:row-start-1",
-                  i % 2 === 0 ? "md:col-start-1 md:text-right" : "md:col-start-3",
-                )}
-              >
-                <div
-                  className={cn(
-                    "flex flex-wrap items-baseline gap-x-3 gap-y-1",
-                    i % 2 === 0 && "md:justify-end",
-                  )}
-                >
-                  <span className="font-mono text-xs text-primary">{item.step}</span>
-                  <h3 className="font-display text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  {item.status === "in-progress" && (
-                    <span className="bg-secondary px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary-foreground">
-                      IN PROGRESS
-                    </span>
-                  )}
-                  {item.status === "ahead" && (
-                    <span className="border border-n-3 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-                      AHEAD
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1.5 text-sm text-muted-foreground">{item.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-
-        <Panel className="mt-12 max-w-2xl" label="NEXT TARGETS" bodyClassName="p-5">
-          <p className="telemetry text-primary">CURRENTLY EXPLORING</p>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {exploring.map((t) => (
-              <Chip as="li" key={t} tone="signal">
-                {t}
-              </Chip>
             ))}
-          </ul>
-        </Panel>
+          </ol>
+          <div aria-hidden="true" className="relative h-10">
+            <span ref={end} className="absolute bottom-0 left-3 h-0 w-0 md:left-1/2" />
+          </div>
+        </div>
+        <ExploringPanel />
       </div>
     </section>
   );

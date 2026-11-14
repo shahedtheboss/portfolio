@@ -1,12 +1,44 @@
 import { Brain, Cpu, Eye, Factory } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { researchInterests } from "@/data/portfolio";
-import { Chip } from "@/components/motion/Chip";
+import type { Variant } from "@/components/canvas/research/types";
 import { SectionHeader } from "@/components/motion/SectionHeader";
+import { researchInterests } from "@/data/portfolio";
+import { useFinePointer } from "@/hooks/useFinePointer";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+import { ResearchRow } from "./research/ResearchRow";
 
 const researchIcons = [Brain, Cpu, Eye, Factory];
+const variants: Variant[] = ["agent", "control", "vision", "plc"];
+const INTENT_MS = 80;
 
 export function Research() {
+  const [active, setActive] = useState(0);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fine = useFinePointer();
+  const reduced = usePrefersReducedMotion();
+
+  const cancel = useCallback(() => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+  }, []);
+  const intent = useCallback(
+    (i: number) => {
+      cancel();
+      timer.current = setTimeout(() => setActive(i), INTENT_MS);
+    },
+    [cancel],
+  );
+  const activate = useCallback(
+    (i: number) => {
+      cancel();
+      setActive(i);
+    },
+    [cancel],
+  );
+  useEffect(() => cancel, [cancel]);
+
   return (
     <section
       id="research"
@@ -25,35 +57,20 @@ export function Research() {
           }
         />
         <div className="border-t border-border">
-          {researchInterests.map((interest, i) => {
-            const Icon = researchIcons[i % researchIcons.length] ?? Brain;
-            return (
-              <article
-                key={interest.key}
-                className="group grid gap-5 border-b border-border py-10 transition-colors hover:bg-signal-dim md:grid-cols-[7rem_1fr_1.3fr] md:gap-10 md:px-4"
-              >
-                <div className="flex items-center gap-4 md:block">
-                  <span className="numeral block text-[4.5rem] transition-colors group-hover:[-webkit-text-stroke-color:var(--primary)]">
-                    {interest.key}
-                  </span>
-                  <Icon size={18} className="text-primary md:mt-4" aria-hidden="true" />
-                </div>
-                <h3 className="font-display text-[length:var(--text-step-1)] font-semibold leading-snug text-foreground">
-                  {interest.title}
-                </h3>
-                <div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{interest.body}</p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {interest.topics.map((topic) => (
-                      <Chip as="li" key={topic}>
-                        {topic}
-                      </Chip>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            );
-          })}
+          {researchInterests.map((interest, i) => (
+            <ResearchRow
+              key={interest.key}
+              interest={interest}
+              Icon={researchIcons[i % researchIcons.length] ?? Brain}
+              variant={variants[i % variants.length] ?? "agent"}
+              active={active === i}
+              reduced={reduced}
+              fine={fine}
+              onActivate={() => activate(i)}
+              onIntent={() => intent(i)}
+              onIntentCancel={cancel}
+            />
+          ))}
         </div>
       </div>
     </section>

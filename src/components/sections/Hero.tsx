@@ -113,7 +113,7 @@ export function Hero() {
         </h1>
 
         <div className="mt-10 grid gap-x-6 gap-y-10 md:grid-cols-12 xl:mt-12">
-          <div className="md:col-span-12 lg:col-span-7 lg:row-start-1 xl:col-span-5 min-[1360px]:col-span-4">
+          <div className="row-start-2 md:row-start-auto md:col-span-12 lg:col-span-7 lg:row-start-1 xl:col-span-5 min-[1360px]:col-span-4">
             <p
               className="hero-rise max-w-2xl text-[length:var(--text-step-0)] leading-relaxed text-muted-foreground"
               style={d(550)}
@@ -170,13 +170,13 @@ export function Hero() {
 
           <div
             aria-hidden="true"
-            className="pointer-events-none mx-auto aspect-[510/285] w-full max-w-sm md:col-span-6 md:mx-0 md:max-w-none lg:col-span-7 lg:col-start-1 lg:row-start-2 xl:col-span-4 xl:col-start-6 xl:row-start-1 xl:self-center min-[1360px]:col-span-5 min-[1360px]:col-start-5 min-[1360px]:ml-0"
+            className="pointer-events-none mx-auto aspect-[510/285] w-full max-w-sm row-start-3 md:row-start-auto md:col-span-6 md:mx-0 md:max-w-none lg:col-span-7 lg:col-start-1 lg:row-start-2 xl:col-span-4 xl:col-start-6 xl:row-start-1 xl:self-center min-[1360px]:col-span-5 min-[1360px]:col-start-5 min-[1360px]:ml-0"
           >
             <RobotNet />
           </div>
 
           <div
-            className="md:col-span-6 lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 xl:col-span-3 xl:col-start-10 xl:row-span-1"
+            className="row-start-1 md:row-start-auto md:col-span-6 lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 xl:col-span-3 xl:col-start-10 xl:row-span-1"
             data-sim-ignore
           >
             <div ref={tiltRef} className="portrait-tilt max-w-md">

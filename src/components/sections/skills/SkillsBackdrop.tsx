@@ -53,11 +53,13 @@ export function SkillsBackdrop() {
     const ctx = cv?.getContext("2d");
     if (!host || !cv || !ctx) return;
     const section = host.parentElement ?? host;
+    let lastW = 0;
+    let lastH = 0;
+    let q = 1;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const random = rng(20240611);
     let w = 0;
     let h = 0;
-    let dpr = 1;
     let t = 0;
     let particles: Particle[] = [];
     let nodes: Node[] = [];
@@ -75,21 +77,23 @@ export function SkillsBackdrop() {
     };
 
     const setup = () => {
-      const r = host.getBoundingClientRect();
-      w = Math.max(1, r.width);
-      h = Math.max(1, r.height);
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      cv.width = Math.round(w * dpr);
-      cv.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Viewport-tall sticky canvas at reduced resolution: only what is on screen is painted.
+      w = Math.max(1, host.getBoundingClientRect().width);
+      h = Math.max(1, window.innerHeight);
+      lastW = w;
+      lastH = h;
+      q = fine ? 0.75 : 0.6;
+      cv.width = Math.round(w * q);
+      cv.height = Math.round(h * q);
+      ctx.setTransform(q, 0, 0, q, 0, 0);
       const area = (w * h) / 1e6;
-      const count = Math.min(70, Math.round(area * (fine ? 22 : 10)) + 12);
+      const count = Math.min(48, Math.round(area * (fine ? 16 : 8)) + 10);
       particles = Array.from({ length: count }, (_, i) => {
         const p: Particle = { x: 0, y: 0, layer: i % LAYERS.length, hot: false, age: 0 };
         spawn(p);
         return p;
       });
-      const nCount = Math.min(26, Math.round(area * (fine ? 9 : 5)) + 5);
+      const nCount = Math.min(20, Math.round(area * (fine ? 7 : 4)) + 4);
       nodes = Array.from({ length: nCount }, () => ({
         x: random() * w,
         y: random() * h,
@@ -187,6 +191,8 @@ export function SkillsBackdrop() {
     });
     io.observe(host);
     const ro = new ResizeObserver(() => {
+      if (Math.abs(host.getBoundingClientRect().width - lastW) < 1 && window.innerHeight === lastH)
+        return;
       setup();
       if (reduced) for (let i = 0; i < 400; i++) step(1 / 60);
     });
@@ -198,7 +204,7 @@ export function SkillsBackdrop() {
     });
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     const onMove = (e: PointerEvent) => {
-      const r = host.getBoundingClientRect();
+      const r = cv.getBoundingClientRect();
       pointer.x = e.clientX - r.left;
       pointer.y = e.clientY - r.top;
     };
@@ -220,7 +226,9 @@ export function SkillsBackdrop() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 -z-10 opacity-70 [mask-image:linear-gradient(to_bottom,#000_0%,rgb(0_0_0/0.55)_30%,rgb(0_0_0/0.4)_60%,#000_100%),radial-gradient(ellipse_at_center,rgb(0_0_0/0.45)_0%,#000_75%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]"
     >
-      <canvas ref={canvas} aria-hidden="true" className="h-full w-full" />
+      <div className="sticky top-0 h-[100svh] w-full">
+        <canvas ref={canvas} aria-hidden="true" className="h-full w-full" />
+      </div>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export function Panel({
   return (
     <Tag
       className={cn(
-        "relative overflow-hidden border border-border bg-card/80 backdrop-blur-[2px]",
+        "relative overflow-hidden border border-border bg-card/85",
         scan && "panel-scan",
         className,
       )}

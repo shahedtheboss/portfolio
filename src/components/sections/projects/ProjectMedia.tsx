@@ -72,7 +72,7 @@ export function ProjectMedia({ project, late }: { project: Project; late: boolea
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-[120%] bg-white/10 opacity-0 group-hover:opacity-100 group-hover:[animation:sheen_900ms_var(--ease-out-expo)]"
       />
-      <span className="telemetry absolute left-3 top-3 z-20 inline-flex items-center gap-2 border border-border bg-background/85 px-2.5 py-1 text-foreground backdrop-blur">
+      <span className="telemetry absolute left-3 top-3 z-20 inline-flex items-center gap-2 border border-border bg-background/90 px-2.5 py-1 text-foreground">
         <StatusLight tone={statusTone(project.status)} />
         {project.status.toUpperCase()}
       </span>

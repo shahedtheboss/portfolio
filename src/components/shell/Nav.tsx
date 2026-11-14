@@ -41,7 +41,7 @@ export function Nav() {
         <nav
           aria-label="Main"
           className={cn(
-            "pointer-events-auto relative flex h-12 items-center justify-between gap-3 border border-border bg-background/70 px-3 backdrop-blur-md transition-[max-width] duration-500 ease-[var(--ease-out-expo)]",
+            "pointer-events-auto relative flex h-12 items-center justify-between gap-3 border border-border bg-background/90 px-3 [@media(hover:hover)_and_(pointer:fine)]:bg-background/70 [@media(hover:hover)_and_(pointer:fine)]:backdrop-blur-md transition-[max-width] duration-500 ease-[var(--ease-out-expo)]",
             "w-full",
             scrolled ? "max-w-[34rem]" : "max-w-[1400px]",
           )}

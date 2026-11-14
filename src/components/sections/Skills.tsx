@@ -20,7 +20,7 @@ export function Skills() {
     <section
       id="skills"
       aria-labelledby="skills-title"
-      className="relative isolate scroll-mt-20 overflow-hidden border-t border-border py-24 md:py-32"
+      className="relative isolate scroll-mt-20 overflow-clip border-t border-border py-16 md:py-32"
     >
       <SkillsBackdrop />
       <div className="container-x">
@@ -32,7 +32,7 @@ export function Skills() {
         />
         <Panel
           scan={false}
-          className="mb-6 hidden border-border/70 bg-[color-mix(in_oklab,var(--card)_60%,transparent)] backdrop-blur-md transition-colors hover:border-n-3 lg:block"
+          className="mb-6 hidden border-border/70 bg-[color-mix(in_oklab,var(--card)_60%,transparent)] [@media(hover:hover)_and_(pointer:fine)]:backdrop-blur-md transition-colors hover:border-n-3 lg:block"
           label={<span aria-hidden="true">SKILL NETWORK / 8 LAYERS</span>}
           bodyClassName="grid xl:grid-cols-[minmax(0,1fr)_19rem]"
         >

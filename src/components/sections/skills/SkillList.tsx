@@ -36,7 +36,7 @@ function GroupPanel({
         as="article"
         label={group.level.toUpperCase()}
         meta={<LevelGlyph level={group.level} animate={pulse || active} />}
-        className="h-full border-border/70 bg-[color-mix(in_oklab,var(--card)_62%,transparent)] backdrop-blur-md transition-colors hover:border-n-3"
+        className="h-full border-border/70 bg-[color-mix(in_oklab,var(--card)_88%,transparent)] [@media(hover:hover)_and_(pointer:fine)]:bg-[color-mix(in_oklab,var(--card)_62%,transparent)] [@media(hover:hover)_and_(pointer:fine)]:backdrop-blur-md transition-colors hover:border-n-3"
         bodyClassName="p-5"
       >
         <h3 className="font-display text-lg font-semibold text-foreground">{group.title}</h3>

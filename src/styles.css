@@ -85,7 +85,7 @@
   --ring: var(--primary);
   --signal-dim: color-mix(in oklab, var(--primary) 14%, transparent);
   --grid-line: rgb(20 67 214 / 0.09);
-  --grain-opacity: 0.05;
+  --grain-opacity: 0.035;
   --cursor-core: rgb(20 67 214 / 0.26);
   --cursor-halo: rgb(20 67 214 / 0.07);
   --cursor-blend: multiply;
@@ -114,7 +114,7 @@
   --destructive: #ff4d4d;
   --destructive-foreground: #ffffff;
   --grid-line: rgb(255 255 255 / 0.045);
-  --grain-opacity: 0.07;
+  --grain-opacity: 0.05;
   --cursor-core: rgb(182 255 60 / 0.24);
   --cursor-halo: rgb(182 255 60 / 0.06);
   --cursor-blend: screen;
@@ -286,15 +286,37 @@
   }
 }
 
-/* Fixed grain layer */
+/* Fixed grain layer: tiled noise at plain opacity (no blend mode, so no full-page re-blend on scroll).
+   Light noise on the dark theme, dark noise on the light theme. */
 .grain-layer {
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
   opacity: var(--grain-opacity);
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-image: var(--grain-image);
+  background-size: 160px 160px;
+}
+:root {
+  --grain-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.1 0 0 0 0 0.17 1.6 0 0 0 -0.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.dark {
+  --grain-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.6 0 0 0 -0.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  *,
+  *::before,
+  *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Skip rendering work for off-screen sections (not for pinned/sticky scenes) */
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 /* Panel scanline on hover */
@@ -333,7 +355,6 @@
   height: 190px;
   margin: -95px 0 0 -95px;
   border-radius: 9999px;
-  mix-blend-mode: var(--cursor-blend);
   background: radial-gradient(
     circle,
     var(--cursor-core) 0%,

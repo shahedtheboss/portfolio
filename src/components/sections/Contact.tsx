@@ -31,7 +31,7 @@ export function Contact() {
             </p>
             <h2
               id="contact-title"
-              className="display-type mt-4 text-[clamp(2rem,0.9rem+6.4vw,7.25rem)] [overflow-wrap:anywhere] text-foreground"
+              className="display-type mt-4 text-[clamp(2rem,1rem+4.2vw,5.25rem)] [overflow-wrap:anywhere] text-foreground"
             >
               <KineticHeadline text={TITLE} />
             </h2>

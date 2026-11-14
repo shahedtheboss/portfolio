@@ -113,7 +113,7 @@ export function Hero() {
         </h1>
 
         <div className="mt-10 grid gap-x-6 gap-y-10 md:grid-cols-12 xl:mt-12">
-          <div className="md:col-span-12 lg:col-span-7 lg:row-start-1 xl:col-span-5">
+          <div className="md:col-span-12 lg:col-span-7 lg:row-start-1 xl:col-span-5 min-[1360px]:col-span-4">
             <p
               className="hero-rise max-w-2xl text-[length:var(--text-step-0)] leading-relaxed text-muted-foreground"
               style={d(550)}
@@ -170,7 +170,7 @@ export function Hero() {
 
           <div
             aria-hidden="true"
-            className="pointer-events-none mx-auto h-60 md:col-span-6 md:mx-0 md:h-auto md:aspect-[520/400] lg:col-span-7 lg:col-start-1 lg:row-start-2 xl:col-span-4 xl:col-start-6 xl:row-start-1 xl:self-center"
+            className="pointer-events-none mx-auto aspect-[510/285] w-full max-w-sm md:col-span-6 md:mx-0 md:max-w-none lg:col-span-7 lg:col-start-1 lg:row-start-2 xl:col-span-4 xl:col-start-6 xl:row-start-1 xl:self-center min-[1360px]:col-span-5 min-[1360px]:col-start-5 min-[1360px]:ml-0"
           >
             <RobotNet />
           </div>
@@ -214,7 +214,7 @@ export function Hero() {
                         style={{ "--r": i } as CSSProperties}
                       >
                         <dt
-                          className="type-wipe w-20 shrink-0 font-mono text-muted-foreground"
+                          className="type-wipe w-28 shrink-0 whitespace-nowrap font-mono text-muted-foreground"
                           style={{ "--wd": "260ms", "--steps": row.label.length } as CSSProperties}
                         >
                           {row.label}

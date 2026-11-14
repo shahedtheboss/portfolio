@@ -34,7 +34,7 @@ function ThemeCard({ theme, index }: { theme: (typeof aboutThemes)[number]; inde
 
 export function ThemeCards() {
   return (
-    <div className="mt-24">
+    <div className="mt-16 md:mt-24">
       <h3 className="display-type text-[length:var(--text-step-2)] text-foreground">
         My Passion and Goals
       </h3>

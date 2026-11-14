@@ -86,8 +86,8 @@
   --signal-dim: color-mix(in oklab, var(--primary) 14%, transparent);
   --grid-line: rgb(20 67 214 / 0.09);
   --grain-opacity: 0.05;
-  --cursor-core: rgb(20 67 214 / 0.55);
-  --cursor-halo: rgb(20 67 214 / 0.14);
+  --cursor-core: rgb(20 67 214 / 0.26);
+  --cursor-halo: rgb(20 67 214 / 0.07);
   --cursor-blend: multiply;
 }
 
@@ -115,8 +115,8 @@
   --destructive-foreground: #ffffff;
   --grid-line: rgb(255 255 255 / 0.045);
   --grain-opacity: 0.07;
-  --cursor-core: rgb(182 255 60 / 0.5);
-  --cursor-halo: rgb(182 255 60 / 0.12);
+  --cursor-core: rgb(182 255 60 / 0.24);
+  --cursor-halo: rgb(182 255 60 / 0.06);
   --cursor-blend: screen;
 }
 
@@ -329,9 +329,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 360px;
-  height: 360px;
-  margin: -180px 0 0 -180px;
+  width: 190px;
+  height: 190px;
+  margin: -95px 0 0 -95px;
   border-radius: 9999px;
   mix-blend-mode: var(--cursor-blend);
   background: radial-gradient(

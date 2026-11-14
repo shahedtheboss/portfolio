@@ -4,16 +4,14 @@ import { useFinePointer } from "@/hooks/useFinePointer";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
 
-import { ARROWS, BUS_X, EDGES, L1, L2, LAYERS, NODES, PORT, POSES, SHOULDER } from "./net-layout";
+import { BUS_X, EDGES, L1, L2, LAYERS, PORT, POSES, SHOULDER } from "./net-layout";
+import { NetArt } from "./NetArt";
+import { RobotArt } from "./RobotArt";
 import { simSignal } from "./signal";
 
-const FULL = "0 0 520 400";
-const COMPACT = "296 28 224 290";
+const VIEW = "10 40 510 285";
 
 type Pulse = { edge: number; p: number; speed: number; on: boolean };
-
-const hair = "fill-none stroke-n-4 [vector-effect:non-scaling-stroke]";
-const hairLit = "fill-none stroke-primary [vector-effect:non-scaling-stroke]";
 
 /** Decorative line-art robot wired to a policy net that mirrors the live simulation. */
 export function RobotNet({ className }: { className?: string }) {
@@ -29,11 +27,6 @@ export function RobotNet({ className }: { className?: string }) {
     const set = (el: Element | null, a: Record<string, string | number>) => {
       if (el) for (const k in a) el.setAttribute(k, String(a[k]));
     };
-
-    const compactMq = window.matchMedia("(max-width: 767px)");
-    const applyView = () => svg.setAttribute("viewBox", compactMq.matches ? COMPACT : FULL);
-    applyView();
-    compactMq.addEventListener("change", applyView);
 
     const cores = LAYERS.map((n, l) =>
       Array.from({ length: n }, (_, i) => svg.querySelector<SVGElement>(`[data-n="${l}-${i}"]`)),
@@ -207,7 +200,7 @@ export function RobotNet({ className }: { className?: string }) {
 
     paint(0, true);
     if (reduced) {
-      return () => compactMq.removeEventListener("change", applyView);
+      return;
     }
 
     let raf = 0;
@@ -243,203 +236,19 @@ export function RobotNet({ className }: { className?: string }) {
       io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointermove", onMove);
-      compactMq.removeEventListener("change", applyView);
     };
   }, [fine, reduced]);
 
-  const outs = NODES[3] ?? [];
   return (
     <svg
       ref={ref}
-      viewBox={FULL}
+      viewBox={VIEW}
       aria-hidden="true"
       focusable="false"
       className={cn("pointer-events-none block h-full w-full overflow-visible", className)}
     >
-      {/* policy net */}
-      <g>
-        <text x={34} y={62} className="fill-n-4 font-mono text-[9px] tracking-[0.18em]">
-          POLICY NET
-        </text>
-        {EDGES.map((e, k) => (
-          <line
-            key={k}
-            x1={e.a.x}
-            y1={e.a.y}
-            x2={e.b.x}
-            y2={e.b.y}
-            className="stroke-n-2 [vector-effect:non-scaling-stroke]"
-            strokeOpacity={0.7}
-          />
-        ))}
-        {NODES.map((layer, l) =>
-          layer.map((p, i) =>
-            l === 3 ? (
-              <g key={`${l}-${i}`}>
-                <rect x={p.x - 11} y={p.y - 11} width={22} height={22} className={hair} />
-                <rect
-                  data-n={`${l}-${i}`}
-                  x={p.x - 11}
-                  y={p.y - 11}
-                  width={22}
-                  height={22}
-                  className="fill-primary"
-                  fillOpacity={0.25}
-                  opacity={0.12}
-                />
-                <text
-                  x={p.x}
-                  y={p.y + 4}
-                  textAnchor="middle"
-                  className="fill-n-5 font-mono text-[11px]"
-                >
-                  {ARROWS[i]}
-                </text>
-              </g>
-            ) : (
-              <g key={`${l}-${i}`}>
-                <circle
-                  cx={p.x}
-                  cy={p.y}
-                  r={5}
-                  className="fill-background stroke-n-4 [vector-effect:non-scaling-stroke]"
-                />
-                <circle
-                  data-n={`${l}-${i}`}
-                  cx={p.x}
-                  cy={p.y}
-                  r={2.2}
-                  className="fill-primary"
-                  opacity={0.12}
-                />
-              </g>
-            ),
-          ),
-        )}
-        <text
-          x={214}
-          y={outs[3] ? outs[3].y + 30 : 340}
-          textAnchor="middle"
-          className="fill-n-4 font-mono text-[9px] tracking-[0.18em]"
-        >
-          ACTION
-        </text>
-        {Array.from({ length: 14 }, (_, i) => (
-          <circle key={i} data-pulse r={2.4} className="fill-primary" opacity={0} />
-        ))}
-        {/* output bus and cable into the chest */}
-        {outs.map((p, i) => (
-          <line
-            key={i}
-            x1={p.x + 11}
-            y1={p.y}
-            x2={BUS_X}
-            y2={p.y}
-            className={hair}
-            strokeOpacity={0.6}
-          />
-        ))}
-        <line
-          x1={BUS_X}
-          y1={outs[0]?.y ?? 120}
-          x2={BUS_X}
-          y2={outs[3]?.y ?? 280}
-          className={hair}
-        />
-        <polyline
-          points={`${BUS_X},200 290,200 290,${PORT.y} ${PORT.x},${PORT.y}`}
-          className={hairLit}
-          strokeOpacity={0.7}
-        />
-        <circle data-id="cable-pulse" r={3} className="fill-primary" opacity={0} />
-      </g>
-
-      {/* robot */}
-      <g data-id="body">
-        <line x1={380} y1={90} x2={380} y2={62} className={hair} />
-        <circle data-id="tip" cx={380} cy={57} r={4.5} className="fill-secondary" />
-        <circle
-          cx={380}
-          cy={57}
-          r={9}
-          className="fill-none stroke-secondary [vector-effect:non-scaling-stroke]"
-          strokeOpacity={0.4}
-        />
-        <rect x={338} y={90} width={84} height={64} rx={6} className={cn(hair, "stroke-n-5")} />
-        <rect x={350} y={104} width={60} height={28} rx={14} className={hair} />
-        <circle data-id="eye" cx={380} cy={118} r={7} className="fill-primary" />
-        <circle
-          cx={380}
-          cy={118}
-          r={12}
-          className="fill-none stroke-primary [vector-effect:non-scaling-stroke]"
-          strokeOpacity={0.25}
-        />
-        <line x1={346} y1={144} x2={366} y2={144} className={hair} />
-        <line x1={394} y1={144} x2={414} y2={144} className={hair} />
-        <path d="M368 154 V168 M392 154 V168" className={hair} />
-        <rect x={330} y={168} width={100} height={116} rx={4} className={cn(hair, "stroke-n-5")} />
-        <rect x={344} y={182} width={72} height={46} className={hair} />
-        {[0, 1, 2].map((i) => (
-          <rect
-            key={i}
-            data-bar
-            x={350}
-            y={190 + i * 12}
-            width={20}
-            height={4}
-            className="fill-primary"
-            opacity={0.8 - i * 0.2}
-          />
-        ))}
-        <circle cx={406} cy={191} r={2.5} className="fill-primary" />
-        <path d="M344 252 H416 M344 262 H400 M344 272 H388" className={hair} strokeOpacity={0.5} />
-        <path d="M312 284 H448 L460 306 H300 Z" className={hair} />
-        {/* left arm at rest */}
-        <path d="M330 196 L304 226 L308 262" className={hair} />
-        <circle cx={304} cy={226} r={4} className={hair} />
-        {/* articulated right arm */}
-        <line
-          data-id="upper"
-          x1={SHOULDER.x}
-          y1={SHOULDER.y}
-          x2={SHOULDER.x + L1}
-          y2={SHOULDER.y}
-          className={cn(hair, "stroke-n-5")}
-          strokeWidth={1.5}
-        />
-        <line
-          data-id="fore"
-          x1={SHOULDER.x + L1}
-          y1={SHOULDER.y}
-          x2={SHOULDER.x + L1 + L2}
-          y2={SHOULDER.y}
-          className={cn(hair, "stroke-n-5")}
-          strokeWidth={1.5}
-        />
-        <circle
-          data-id="j-shoulder"
-          cx={SHOULDER.x}
-          cy={SHOULDER.y}
-          r={5}
-          className="fill-background stroke-primary [vector-effect:non-scaling-stroke]"
-        />
-        <circle
-          data-id="j-elbow"
-          cx={SHOULDER.x + L1}
-          cy={SHOULDER.y}
-          r={4}
-          className="fill-background stroke-primary [vector-effect:non-scaling-stroke]"
-        />
-        <circle
-          data-id="j-wrist"
-          cx={SHOULDER.x + L1 + L2}
-          cy={SHOULDER.y}
-          r={3}
-          className="fill-primary"
-        />
-        <polyline data-id="claw" points="0,0 0,0 0,0" className={hairLit} />
-      </g>
+      <NetArt />
+      <RobotArt />
     </svg>
   );
 }

@@ -50,7 +50,7 @@ function PinnedScene() {
 
 function StackedScene() {
   return (
-    <div className="grid gap-12 lg:grid-cols-12">
+    <div className="grid gap-10 lg:grid-cols-12">
       <div className="lg:col-span-5">
         <Lead />
       </div>

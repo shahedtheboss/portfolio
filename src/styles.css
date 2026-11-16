@@ -611,6 +611,17 @@ html[data-boot="done"] .type-wipe {
   }
 }
 
+@media (max-width: 767px) {
+  .mobile-about-scene p > span > span {
+    transform: none !important;
+  }
+
+  .mobile-about-scene .about-feed-reveal {
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+}
+
 /* Hero sim canvas: subdued behind the left text column, fuller to the right and at the bottom */
 .sim-fade {
   -webkit-mask-image:

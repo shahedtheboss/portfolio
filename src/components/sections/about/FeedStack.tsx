@@ -12,7 +12,7 @@ function StaticFeed({ index, feed: f }: { index: number; feed: (typeof feeds)[nu
     <div
       ref={ref}
       className={cn(
-        "transition-[clip-path,opacity] duration-[900ms] ease-[var(--ease-out-expo)]",
+        "about-feed-reveal transition-[clip-path,opacity] duration-[900ms] ease-[var(--ease-out-expo)]",
         hidden && "opacity-0 [clip-path:inset(0_100%_0_0)]",
       )}
     >
